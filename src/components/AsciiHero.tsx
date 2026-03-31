@@ -220,7 +220,7 @@ export default function AsciiHero() {
             textShadow: "0 0 40px rgba(0,0,0,0.9)",
           }}
         >
-          Engineer &nbsp;/&nbsp; AI Researcher &nbsp;/&nbsp; Builder
+          Builder &nbsp;/&nbsp; AI Researcher
         </p>
       </div>
 
