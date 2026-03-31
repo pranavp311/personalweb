@@ -11,8 +11,8 @@ interface Twinkle {
   peakBrightness: number;
 }
 
-function smoothstep(t: number): number {
-  return t * t * (3 - 2 * t);
+function smootherstep(t: number): number {
+  return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
 export class ImageCycler {
@@ -29,8 +29,8 @@ export class ImageCycler {
 
   get currentGrid(): Float32Array | null { return this._currentGrid; }
 
-  private readonly DISPLAY_DURATION = 5500; // ms
-  private readonly TRANSITION_DURATION = 1200; // ms
+  private readonly DISPLAY_DURATION = 3500; // ms
+  private readonly TRANSITION_DURATION = 2000; // ms
 
   // Twinkle state — targets mid-to-bright areas (the image subject)
   private twinkles: Twinkle[] = [];
@@ -194,7 +194,7 @@ export class ImageCycler {
     } else if (this.state === "transition") {
       const nextIndex = (this.currentIndex + 1) % this.grids.length;
       const rawT = Math.min(elapsed / this.TRANSITION_DURATION, 1);
-      const t = smoothstep(rawT);
+      const t = smootherstep(rawT);
 
       grid = this.renderer.interpolateGrids(
         this.grids[this.currentIndex],
@@ -224,6 +224,13 @@ export class ImageCycler {
 
     this.rafId = requestAnimationFrame(this.tick);
   };
+
+  skipToNext() {
+    if (this.state === "transition") return;
+    this.state = "transition";
+    this.stateStartTime = performance.now();
+    this.twinkles = [];
+  }
 
   stop() {
     cancelAnimationFrame(this.rafId);

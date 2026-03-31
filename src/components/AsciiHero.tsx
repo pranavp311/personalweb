@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { AsciiRenderer } from "@/lib/ascii-renderer";
 import { ImageCycler } from "@/lib/image-cycler";
 
@@ -25,10 +25,17 @@ export default function AsciiHero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cyclerRef = useRef<ImageCycler | null>(null);
   const rendererRef = useRef<AsciiRenderer | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const hasSignaledLoad = useRef(false);
 
   const handleFrame = useCallback((ascii: string) => {
     if (preRef.current) {
       preRef.current.textContent = ascii;
+    }
+
+    if (!hasSignaledLoad.current) {
+      hasSignaledLoad.current = true;
+      requestAnimationFrame(() => setLoaded(true));
     }
 
     // Redraw dot grid, hiding dots where ASCII brightness is high
@@ -121,12 +128,14 @@ export default function AsciiHero() {
 
   return (
     <section
+      onClick={() => cyclerRef.current?.skipToNext()}
       style={{
         position: "relative",
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
         background: "#0a0a0a",
+        cursor: "default",
       }}
     >
       <pre
@@ -145,6 +154,8 @@ export default function AsciiHero() {
           lineHeight: LINE_HEIGHT,
           letterSpacing: `${LETTER_SPACING_EM}em`,
           whiteSpace: "pre",
+          opacity: loaded ? 1 : 0,
+          transition: "opacity 1.2s ease-in",
         }}
       />
 
@@ -155,6 +166,8 @@ export default function AsciiHero() {
           inset: 0,
           zIndex: 1,
           pointerEvents: "none",
+          opacity: loaded ? 1 : 0,
+          transition: "opacity 1.2s ease-in",
         }}
       />
 

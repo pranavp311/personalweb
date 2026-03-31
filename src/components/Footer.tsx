@@ -79,7 +79,7 @@ export default function Footer() {
                 href="https://www.linkedin.com/in/pranav-pappu-2a6bba1bb/"
                 label="LinkedIn"
               />
-              <SocialLink href="mailto:pranav@u.nus.edu" label="Email" />
+              <SocialLink href="mailto:pappupranav311@gmail.com" label="Email" />
             </div>
 
             <p
