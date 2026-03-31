@@ -11,7 +11,11 @@ export class AsciiRenderer {
   get cols() { return this._cols; }
   get rows() { return this._rows; }
 
-  constructor(private fontSize: number = 10, private lineHeight: number = 1.0) {
+  constructor(
+    private fontSize: number = 10,
+    private lineHeight: number = 1.0,
+    private letterSpacing: number = 0,
+  ) {
     this.canvas = document.createElement("canvas");
     this.ctx = this.canvas.getContext("2d", { willReadFrequently: true })!;
     this.measureChar();
@@ -28,7 +32,7 @@ export class AsciiRenderer {
   }
 
   computeGrid() {
-    this._cols = Math.floor(window.innerWidth / this.charWidth);
+    this._cols = Math.floor(window.innerWidth / (this.charWidth + this.letterSpacing));
     this._rows = Math.floor(window.innerHeight / this.charHeight);
     this.canvas.width = this._cols;
     this.canvas.height = this._rows;

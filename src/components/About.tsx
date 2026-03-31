@@ -1,7 +1,6 @@
 "use client";
 
 import SectionReveal from "./SectionReveal";
-import AsciiPortrait from "./AsciiPortrait";
 
 export default function About() {
   return (
@@ -97,10 +96,20 @@ export default function About() {
             </SectionReveal>
           </div>
 
-          {/* ASCII Portrait */}
+          {/* Profile Photo */}
           <SectionReveal delay={300}>
             <div style={{ flexShrink: 0 }}>
-              <AsciiPortrait />
+              <img
+                src="/images/profile.jpg"
+                alt="Pranav Pappu"
+                style={{
+                  width: 220,
+                  height: 220,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "2px solid rgba(255,102,0,0.3)",
+                }}
+              />
             </div>
           </SectionReveal>
         </div>
