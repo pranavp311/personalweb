@@ -54,27 +54,34 @@ export class ImageCycler {
   }
 
   async start() {
-    await this.loadImages();
-    this.computeAllGrids();
+    // Start rendering as soon as the first image loads, load the rest in background
+    const firstImg = await this.loadImage(this.imagePaths[0]);
+    this.images[0] = firstImg;
+    this.grids[0] = this.renderer.sampleImage(firstImg);
+
     this.state = "display";
     this.stateStartTime = performance.now();
     this.currentFrame = this.renderer.gridToString(this.grids[0]);
     this.onFrame(this.currentFrame);
     this.tick();
+
+    // Load remaining images in background
+    for (let i = 1; i < this.imagePaths.length; i++) {
+      this.loadImage(this.imagePaths[i]).then((img) => {
+        this.images[i] = img;
+        this.grids[i] = this.renderer.sampleImage(img);
+      });
+    }
   }
 
-  private async loadImages(): Promise<void> {
-    const promises = this.imagePaths.map(
-      (src) =>
-        new Promise<HTMLImageElement>((resolve, reject) => {
-          const img = new Image();
-          img.crossOrigin = "anonymous";
-          img.onload = () => resolve(img);
-          img.onerror = reject;
-          img.src = src;
-        }),
-    );
-    this.images = await Promise.all(promises);
+  private loadImage(src: string): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
   }
 
   computeAllGrids() {
@@ -186,7 +193,8 @@ export class ImageCycler {
 
     if (this.state === "display") {
       grid = this.grids[this.currentIndex];
-      if (elapsed >= this.DISPLAY_DURATION) {
+      const nextIndex = (this.currentIndex + 1) % this.grids.length;
+      if (elapsed >= this.DISPLAY_DURATION && this.grids[nextIndex]) {
         this.state = "transition";
         this.stateStartTime = now;
         this.twinkles = [];
@@ -227,6 +235,8 @@ export class ImageCycler {
 
   skipToNext() {
     if (this.state === "transition") return;
+    const nextIndex = (this.currentIndex + 1) % this.grids.length;
+    if (!this.grids[nextIndex]) return;
     this.state = "transition";
     this.stateStartTime = performance.now();
     this.twinkles = [];

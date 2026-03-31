@@ -8,10 +8,10 @@ const IMAGE_PATHS = [
   "/images/hero-1.jpg",
   "/images/hero-2.webp",
   "/images/hero-3.jpg",
-  "/images/hero-4.png",
+  "/images/hero-4.jpg",
 ];
 
-const FONT_SIZE = 8;
+const FONT_SIZE = 6;
 const LINE_HEIGHT = 1.2;
 const LETTER_SPACING_EM = 0.12;
 const LETTER_SPACING_PX = FONT_SIZE * LETTER_SPACING_EM;
