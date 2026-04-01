@@ -14,12 +14,14 @@ function SocialLink({ href, label }: { href: string; label: string }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontSize: 13,
+        fontFamily: "var(--font-jetbrains-mono), monospace",
+        fontSize: 11,
         fontWeight: 400,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase" as const,
         color: hovered ? "#ff6600" : "#636366",
         textDecoration: "none",
         transition: "color 0.3s ease",
-        letterSpacing: "0.02em",
       }}
     >
       {label}
@@ -29,10 +31,10 @@ function SocialLink({ href, label }: { href: string; label: string }) {
 
 export default function Footer() {
   return (
-    <footer style={{ padding: "80px 0 48px" }}>
+    <footer style={{ padding: "60px 0 48px" }}>
       <div
         style={{
-          maxWidth: 720,
+          maxWidth: 900,
           marginLeft: "auto",
           marginRight: "auto",
           paddingLeft: 32,
@@ -42,56 +44,57 @@ export default function Footer() {
         <SectionReveal>
           <div
             style={{
-              height: 1,
-              background: "rgba(255,255,255,0.06)",
-              marginBottom: 56,
-            }}
-          />
-
-          <div
-            style={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              gap: 28,
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              flexWrap: "wrap" as const,
+              gap: 24,
             }}
           >
-            <p
-              style={{
-                fontSize: 14,
-                fontWeight: 400,
-                color: "#48484a",
-              }}
-            >
-              Pranav &mdash; CS @ NUS &middot; Singapore
-            </p>
+            {/* Left — identity */}
+            <div>
+              <p
+                style={{
+                  fontFamily: "var(--font-display), serif",
+                  fontSize: 18,
+                  fontWeight: 400,
+                  color: "#48484a",
+                  marginBottom: 6,
+                }}
+              >
+                Pranav Pappu
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontSize: 10,
+                  fontWeight: 400,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase" as const,
+                  color: "#2c2c2e",
+                }}
+              >
+                CS @ NUS / Singapore
+              </p>
+            </div>
 
+            {/* Right — links */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 28,
+                gap: 20,
               }}
             >
               <SocialLink href="https://github.com/pranavp311" label="GitHub" />
+              <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>
               <SocialLink
                 href="https://www.linkedin.com/in/pranav-pappu-2a6bba1bb/"
                 label="LinkedIn"
               />
+              <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>
               <SocialLink href="mailto:pappupranav311@gmail.com" label="Email" />
             </div>
-
-            <p
-              style={{
-                fontSize: 11,
-                fontWeight: 300,
-                color: "#2c2c2e",
-                marginTop: 12,
-              }}
-            >
-              Built with curiosity and too much caffeine.
-            </p>
           </div>
         </SectionReveal>
       </div>

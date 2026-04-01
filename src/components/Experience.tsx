@@ -45,67 +45,29 @@ const hackathons = [
   },
 ];
 
-function Card({
-  children,
-  index,
-  accent,
-  href,
-}: {
-  children: React.ReactNode;
-  index: number;
-  accent?: boolean;
-  href?: string;
-}) {
+function ArrowLink({ href }: { href: string }) {
   const [hovered, setHovered] = useState(false);
 
-  const content = (
-    <div
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={(e) => e.stopPropagation()}
       style={{
-        padding: "24px 28px",
-        background: hovered
-          ? accent
-            ? "rgba(255,102,0,0.04)"
-            : "rgba(255,255,255,0.03)"
-          : "rgba(255,255,255,0.015)",
-        border: "1px solid",
-        borderColor: hovered
-          ? accent
-            ? "rgba(255,102,0,0.2)"
-            : "rgba(255,255,255,0.1)"
-          : "rgba(255,255,255,0.05)",
-        borderRadius: 6,
-        transition: "background 0.3s ease, border-color 0.3s ease",
-        height: "100%",
-        cursor: href ? "pointer" : "default",
+        fontFamily: "var(--font-jetbrains-mono), monospace",
+        fontSize: 11,
+        fontWeight: 400,
+        letterSpacing: "0.05em",
+        color: hovered ? "#ff6600" : "#48484a",
+        textDecoration: "none",
+        transition: "color 0.3s ease",
       }}
-      onClick={href ? () => window.open(href, "_blank", "noopener,noreferrer") : undefined}
     >
-      {children}
-    </div>
-  );
-
-  return <SectionReveal delay={index * 100}>{content}</SectionReveal>;
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <SectionReveal>
-      <p
-        style={{
-          fontFamily: "var(--font-jetbrains-mono), monospace",
-          fontSize: 11,
-          fontWeight: 500,
-          letterSpacing: "0.2em",
-          textTransform: "uppercase" as const,
-          color: "#ff6600",
-          marginBottom: 24,
-        }}
-      >
-        {children}
-      </p>
-    </SectionReveal>
+      -&gt;
+    </a>
   );
 }
 
@@ -114,109 +76,161 @@ export default function Experience() {
     <section style={{ padding: "100px 0" }}>
       <div
         style={{
-          maxWidth: 1000,
+          maxWidth: 800,
           marginLeft: "auto",
           marginRight: "auto",
           paddingLeft: 32,
           paddingRight: 32,
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 64,
-          alignItems: "start",
         }}
       >
-        {/* Experience — left column */}
-        <div>
-          <SectionLabel>Experience</SectionLabel>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {experiences.map((exp, i) => (
-              <Card key={exp.role} index={i}>
+        {/* Experience */}
+        <SectionReveal>
+          <p
+            style={{
+              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase" as const,
+              color: "#ff6600",
+              marginBottom: 40,
+            }}
+          >
+            Experience
+          </p>
+        </SectionReveal>
+
+        <div
+          style={{
+            borderLeft: "1px solid rgba(255,102,0,0.15)",
+            paddingLeft: 32,
+            display: "flex",
+            flexDirection: "column",
+            gap: 48,
+          }}
+        >
+          {experiences.map((exp, i) => (
+            <SectionReveal key={exp.role} delay={i * 100}>
+              <div>
                 <h3
                   style={{
-                    fontSize: 16,
-                    fontWeight: 600,
+                    fontSize: 21,
+                    fontWeight: 500,
                     letterSpacing: "-0.01em",
                     color: "#f5f5f7",
+                    marginBottom: 6,
                   }}
                 >
                   {exp.role}
                 </h3>
                 <p
                   style={{
-                    marginTop: 5,
                     fontFamily: "var(--font-jetbrains-mono), monospace",
                     fontSize: 11,
                     fontWeight: 400,
-                    color: "#48484a",
-                    letterSpacing: "0.02em",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase" as const,
+                    color: "#636366",
+                    marginBottom: 14,
                   }}
                 >
                   {exp.org}
                 </p>
                 <p
                   style={{
-                    marginTop: 12,
-                    fontSize: 13,
-                    lineHeight: 1.7,
+                    fontSize: 15,
+                    lineHeight: 1.75,
                     fontWeight: 300,
-                    color: "#6e6e73",
+                    color: "#8e8e93",
                   }}
                 >
                   {exp.description}
                 </p>
-              </Card>
-            ))}
-          </div>
+              </div>
+            </SectionReveal>
+          ))}
         </div>
 
-        {/* Hackathons — right column */}
-        <div>
-          <SectionLabel>Hackathons</SectionLabel>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {/* Hackathons */}
+        <div style={{ marginTop: 80 }}>
+          <SectionReveal>
+            <p
+              style={{
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase" as const,
+                color: "#ff6600",
+                marginBottom: 40,
+              }}
+            >
+              Hackathons
+            </p>
+          </SectionReveal>
+
+          <div
+            style={{
+              borderLeft: "1px solid rgba(255,102,0,0.15)",
+              paddingLeft: 32,
+              display: "flex",
+              flexDirection: "column",
+              gap: 48,
+            }}
+          >
             {hackathons.map((hack, i) => (
-              <Card key={hack.event} index={i} accent={!!hack.place} href={hack.github}>
-                {hack.place && (
-                  <span
+              <SectionReveal key={hack.event} delay={i * 100}>
+                <div>
+                  <div
                     style={{
-                      display: "inline-block",
-                      fontFamily: "var(--font-jetbrains-mono), monospace",
-                      fontSize: 10,
-                      fontWeight: 500,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase" as const,
-                      padding: "3px 10px",
-                      borderRadius: 999,
-                      color: "#4ade80",
-                      background: "rgba(74,222,128,0.07)",
-                      border: "1px solid rgba(74,222,128,0.15)",
-                      marginBottom: 14,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      marginBottom: 6,
                     }}
                   >
-                    {hack.place}
-                  </span>
-                )}
-                <h3
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 600,
-                    letterSpacing: "-0.01em",
-                    color: "#f5f5f7",
-                  }}
-                >
-                  {hack.event}
-                </h3>
-                <p
-                  style={{
-                    marginTop: 12,
-                    fontSize: 13,
-                    lineHeight: 1.7,
-                    fontWeight: 300,
-                    color: "#6e6e73",
-                  }}
-                >
-                  {hack.description}
-                </p>
-              </Card>
+                    {hack.place && (
+                      <span
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono), monospace",
+                          fontSize: 11,
+                          fontWeight: 500,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase" as const,
+                          color: "#4ade80",
+                        }}
+                      >
+                        {hack.place.toUpperCase()} //
+                      </span>
+                    )}
+                    <h3
+                      style={{
+                        fontSize: 21,
+                        fontWeight: 500,
+                        letterSpacing: "-0.01em",
+                        color: "#f5f5f7",
+                      }}
+                    >
+                      {hack.event}
+                    </h3>
+                    {hack.github && (
+                      <div style={{ marginLeft: "auto" }}>
+                        <ArrowLink href={hack.github} />
+                      </div>
+                    )}
+                  </div>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      lineHeight: 1.7,
+                      fontWeight: 300,
+                      color: "#6e6e73",
+                    }}
+                  >
+                    {hack.description}
+                  </p>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>

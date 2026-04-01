@@ -17,59 +17,45 @@ const projects = [
     description:
       "A visual interface for watching CLI and swarm agents work in real time, with quick approval flows for agent requests.",
     image: "/images/proj-agentisland.png",
-    imagePosition: "center center",
-    private: true,
-  },
-  {
-    name: "AssessMate",
-    status: "WIP" as const,
-    description:
-      "AI case note copilot for early childhood intervention assessors, helping special needs children get attention faster.",
-    image: "/images/proj-assessmate.jpg",
-  },
-  {
-    name: "SecureClaw",
-    description:
-      "Multi-agent LLM routing with MAP-Elites and UCB1 bandit policies for intelligent, privacy-aware model selection.",
-    image: "/images/proj-secureclaw.png",
-    github: "https://github.com/pranavp311/secureclaw",
-  },
-  {
-    name: "Moltlytics",
-    description:
-      "Analytics platform rivaling PostHog that lets website owners automatically adapt their sites based on real customer behavior data.",
-    image: "/images/proj-moltlytics.png",
-    imagePosition: "top center",
     private: true,
   },
   {
     name: "GPT-2 from Scratch",
     description:
       "Full PyTorch implementation surpassing standard benchmarks, plus a custom BPE tokenizer.",
-    image: "/images/proj-gpt2.jpg",
-    imagePosition: "center center",
+    image: "/images/proj-gpt2.png",
     github: "https://github.com/pranavp311/learning_nn",
+  },
+  {
+    name: "SecureClaw",
+    description:
+      "Multi-agent LLM routing with MAP-Elites and UCB1 bandit policies for intelligent, privacy-aware model selection.",
+    image: "/images/proj-secureclaw.png",
+    imagePosition: "90% center",
+    imageSize: "contain" as const,
+    github: "https://github.com/pranavp311/secureclaw",
+  },
+  {
+    name: "AssessMate",
+    status: "WIP" as const,
+    description:
+      "AI case note copilot for early childhood intervention assessors, helping special needs children get attention faster.",
+    image: "/images/proj-assessmate.png",
+    imagePosition: "93% center",
+    imageSize: "contain" as const,
+  },
+  {
+    name: "Moltlytics",
+    description:
+      "Analytics platform rivaling PostHog that lets website owners automatically adapt their sites based on real customer behavior data.",
+    image: "/images/proj-moltlytics.png",
+    imagePosition: "93% center",
+    imageSize: "contain" as const,
+    private: true,
   },
 ];
 
-function GitHubIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  );
-}
-
-function ProjectCard({
+function ProjectRow({
   project,
   index,
 }: {
@@ -77,82 +63,91 @@ function ProjectCard({
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
-  const hasImage = !!project.image;
 
   return (
     <SectionReveal delay={index * 80}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={project.github ? () => window.open(project.github, "_blank", "noopener,noreferrer") : undefined}
+        onClick={
+          project.github
+            ? () => window.open(project.github, "_blank", "noopener,noreferrer")
+            : undefined
+        }
         style={{
-          background: hovered ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)",
-          border: "1px solid",
-          borderColor: hovered ? "rgba(255,102,0,0.2)" : "rgba(255,255,255,0.06)",
-          borderRadius: 6,
-          overflow: "hidden",
-          cursor: project.github ? "pointer" : "default",
-          transition: "background 0.3s ease, border-color 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          transform: hovered ? "translateY(-2px)" : "translateY(0)",
+          position: "relative",
           display: "flex",
-          flexDirection: "column",
-          height: "100%",
+          alignItems: "flex-start",
+          gap: 28,
+          padding: "32px 0",
+          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          cursor: project.github ? "pointer" : "default",
+          overflow: "hidden",
         }}
       >
-        {/* Image */}
-        <div
-          style={{
-            width: "100%",
-            height: 280,
-            overflow: "hidden",
-            background: "#111",
-          }}
-        >
-          {hasImage ? (
-            <img
-              src={project.image}
-              alt={project.name}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: project.imagePosition || "center",
-                display: "block",
-                transition: "none",
-              }}
-            />
-          ) : (
+        {/* Ghost image on hover */}
+        {project.image && (
+          <>
             <div
               style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "var(--font-jetbrains-mono), monospace",
-                fontSize: 28,
-                color: "rgba(255,102,0,0.15)",
-                letterSpacing: "0.05em",
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `url(${project.image})`,
+                backgroundSize: project.imageSize || "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: project.imagePosition || "center",
+                opacity: hovered ? 0.07 : 0,
+                transition: "opacity 0.5s ease",
+                pointerEvents: "none",
               }}
-            >
-              {project.name[0]}
-            </div>
-          )}
-        </div>
+            />
+            {/* ASCII dot-grid overlay */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage:
+                  "radial-gradient(circle, rgba(128,128,128,0.4) 0.5px, transparent 0.5px)",
+                backgroundSize: "3px 3px",
+                opacity: hovered ? 0.4 : 0,
+                transition: "opacity 0.5s ease",
+                pointerEvents: "none",
+              }}
+            />
+          </>
+        )}
+
+        {/* Index number */}
+        <span
+          style={{
+            fontFamily: "var(--font-display), serif",
+            fontSize: 42,
+            fontWeight: 400,
+            lineHeight: 1,
+            color: "rgba(255,255,255,0.06)",
+            minWidth: 56,
+            textAlign: "right",
+            flexShrink: 0,
+            position: "relative",
+          }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
 
         {/* Content */}
-        <div style={{ padding: "20px 22px 24px", flex: 1 }}>
+        <div style={{ flex: 1, position: "relative" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 8,
+              gap: 10,
+              marginBottom: 8,
             }}
           >
             <h3
               style={{
-                fontSize: 17,
-                fontWeight: 600,
+                fontSize: 23,
+                fontWeight: 500,
                 letterSpacing: "-0.01em",
                 color: hovered ? "#ff6600" : "#f5f5f7",
                 transition: "color 0.3s ease",
@@ -169,11 +164,8 @@ function ProjectCard({
                   fontWeight: 500,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase" as const,
-                  padding: "2px 8px",
-                  borderRadius: 999,
                   color: "#ff6600",
-                  background: "rgba(255,102,0,0.07)",
-                  border: "1px solid rgba(255,102,0,0.15)",
+                  opacity: 0.6,
                 }}
               >
                 {project.status}
@@ -184,21 +176,22 @@ function ProjectCard({
 
             {project.private ? (
               <span
-                title="Private repo — soon to be commercial"
                 style={{
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
-                  gap: 4,
+                  gap: 5,
                   fontFamily: "var(--font-jetbrains-mono), monospace",
                   fontSize: 10,
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
-                  color: hovered ? "rgba(255,255,255,0.4)" : "#48484a",
-                  transition: "color 0.3s ease",
-                  cursor: "default",
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase" as const,
+                  color: "#2c2c2e",
                 }}
               >
-                <LockIcon />
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
                 Private
               </span>
             ) : project.github ? (
@@ -206,26 +199,34 @@ function ProjectCard({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontSize: 11,
+                  fontWeight: 400,
+                  letterSpacing: "0.05em",
                   color: hovered ? "#ff6600" : "#48484a",
                   transition: "color 0.3s ease",
-                  display: "flex",
-                  alignItems: "center",
+                  textDecoration: "none",
                 }}
-                onClick={(e) => e.stopPropagation()}
               >
-                <GitHubIcon />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
               </a>
             ) : null}
           </div>
 
           <p
             style={{
-              marginTop: 10,
-              fontSize: 13,
-              lineHeight: 1.65,
+              fontSize: 15,
+              lineHeight: 1.75,
               fontWeight: 300,
-              color: "#6e6e73",
+              color: "#8e8e93",
+              maxWidth: 580,
             }}
           >
             {project.description}
@@ -241,7 +242,7 @@ export default function Projects() {
     <section style={{ padding: "100px 0" }}>
       <div
         style={{
-          maxWidth: 1200,
+          maxWidth: 900,
           marginLeft: "auto",
           marginRight: "auto",
           paddingLeft: 32,
@@ -266,13 +267,11 @@ export default function Projects() {
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 20,
+            borderTop: "1px solid rgba(255,255,255,0.04)",
           }}
         >
           {projects.map((project, i) => (
-            <ProjectCard key={project.name} project={project} index={i} />
+            <ProjectRow key={project.name} project={project} index={i} />
           ))}
         </div>
       </div>

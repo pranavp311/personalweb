@@ -1,6 +1,7 @@
 "use client";
 
 import SectionReveal from "./SectionReveal";
+import AsciiPortrait from "./AsciiPortrait";
 
 export default function About() {
   return (
@@ -34,7 +35,7 @@ export default function About() {
           style={{
             display: "flex",
             gap: 56,
-            alignItems: "flex-start",
+            alignItems: "center",
             flexWrap: "wrap" as const,
           }}
         >
@@ -43,10 +44,11 @@ export default function About() {
             <SectionReveal delay={100}>
               <h2
                 style={{
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  lineHeight: 1.35,
-                  fontWeight: 600,
-                  letterSpacing: "-0.025em",
+                  fontFamily: "var(--font-display), serif",
+                  fontSize: "clamp(32px, 5vw, 52px)",
+                  lineHeight: 1.2,
+                  fontWeight: 400,
+                  letterSpacing: "-0.01em",
                   color: "#f5f5f7",
                 }}
               >
@@ -54,12 +56,14 @@ export default function About() {
               </h2>
               <h2
                 style={{
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  lineHeight: 1.35,
-                  fontWeight: 600,
-                  letterSpacing: "-0.025em",
+                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontSize: "clamp(14px, 1.8vw, 18px)",
+                  lineHeight: 1.6,
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase" as const,
                   color: "#48484a",
-                  marginTop: 4,
+                  marginTop: 20,
                 }}
               >
                 I build AI-powered tools and ship fast.
@@ -67,7 +71,18 @@ export default function About() {
             </SectionReveal>
 
             <SectionReveal delay={200}>
-              <div style={{ marginTop: 40 }}>
+              {/* Accent rule */}
+              <div
+                style={{
+                  width: 48,
+                  height: 1,
+                  background: "rgba(255,102,0,0.4)",
+                  marginTop: 36,
+                  marginBottom: 32,
+                }}
+              />
+
+              <div style={{ paddingLeft: "8%" }}>
                 <p
                   style={{
                     fontSize: 17,
@@ -96,20 +111,10 @@ export default function About() {
             </SectionReveal>
           </div>
 
-          {/* Profile Photo */}
+          {/* ASCII Portrait */}
           <SectionReveal delay={300}>
             <div style={{ flexShrink: 0 }}>
-              <img
-                src="/images/profile.jpg"
-                alt="Pranav Pappu"
-                style={{
-                  width: 220,
-                  height: 220,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "2px solid rgba(255,102,0,0.3)",
-                }}
-              />
+              <AsciiPortrait />
             </div>
           </SectionReveal>
         </div>

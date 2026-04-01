@@ -5,18 +5,30 @@ import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
-function Divider() {
+function SectionBreak() {
   return (
     <div
       style={{
-        maxWidth: 720,
+        maxWidth: 900,
         marginLeft: "auto",
         marginRight: "auto",
         paddingLeft: 32,
         paddingRight: 32,
+        textAlign: "center",
+        padding: "12px 32px",
       }}
     >
-      <div style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
+      <p
+        style={{
+          fontFamily: "var(--font-jetbrains-mono), monospace",
+          fontSize: 7,
+          letterSpacing: "0.5em",
+          color: "rgba(255,102,0,0.12)",
+          userSelect: "none",
+        }}
+      >
+        · · · · · · · · · · · · · · · · · · · · · · · · ·
+      </p>
     </div>
   );
 }
@@ -26,11 +38,11 @@ export default function Home() {
     <main>
       <AsciiHero />
       <About />
-      <Divider />
+      <SectionBreak />
       <Projects />
-      <Divider />
+      <SectionBreak />
       <Experience />
-      <Divider />
+      <SectionBreak />
       <Contact />
       <Footer />
     </main>
