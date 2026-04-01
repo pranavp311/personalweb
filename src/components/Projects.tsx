@@ -65,7 +65,7 @@ function ProjectCell({
   const [hovered, setHovered] = useState(false);
 
   return (
-    <SectionReveal delay={index * 80}>
+    <SectionReveal delay={index * 80} style={{ display: "flex" }}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -77,11 +77,13 @@ function ProjectCell({
         style={{
           position: "relative",
           padding: "28px 24px",
-          minHeight: 180,
           cursor: project.github ? "pointer" : "default",
           overflow: "hidden",
           borderBottom: "1px solid rgba(255,255,255,0.04)",
           borderRight: index % 2 === 0 ? "1px solid rgba(255,255,255,0.04)" : "none",
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
         }}
       >
         {/* Ghost image on hover */}
@@ -133,7 +135,7 @@ function ProjectCell({
         </span>
 
         {/* Content */}
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
           <div
             style={{
               display: "flex",
@@ -184,6 +186,7 @@ function ProjectCell({
           </p>
 
           {/* Bottom meta */}
+          <div style={{ marginTop: "auto", paddingTop: 16 }}>
           {project.private ? (
             <span
               style={{
@@ -223,6 +226,7 @@ function ProjectCell({
               </svg>
             </a>
           ) : null}
+          </div>
         </div>
       </div>
     </SectionReveal>
