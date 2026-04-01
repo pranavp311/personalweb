@@ -82,7 +82,7 @@ export default function About() {
                 }}
               />
 
-              <div style={{ paddingLeft: "8%" }}>
+              <div>
                 <p
                   style={{
                     fontSize: 17,
