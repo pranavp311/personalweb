@@ -55,7 +55,7 @@ const projects = [
   },
 ];
 
-function ProjectRow({
+function ProjectCell({
   project,
   index,
 }: {
@@ -76,13 +76,12 @@ function ProjectRow({
         }
         style={{
           position: "relative",
-          display: "flex",
-          alignItems: "flex-start",
-          gap: 28,
-          padding: "32px 0",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          padding: "28px 24px",
+          minHeight: 180,
           cursor: project.github ? "pointer" : "default",
           overflow: "hidden",
+          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          borderRight: index % 2 === 0 ? "1px solid rgba(255,255,255,0.04)" : "none",
         }}
       >
         {/* Ghost image on hover */}
@@ -121,32 +120,31 @@ function ProjectRow({
         <span
           style={{
             fontFamily: "var(--font-display), serif",
-            fontSize: 42,
+            fontSize: 36,
             fontWeight: 400,
             lineHeight: 1,
-            color: "rgba(255,255,255,0.06)",
-            minWidth: 56,
-            textAlign: "right",
-            flexShrink: 0,
-            position: "relative",
+            color: "rgba(255,255,255,0.05)",
+            position: "absolute",
+            top: 24,
+            right: 24,
           }}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
 
         {/* Content */}
-        <div style={{ flex: 1, position: "relative" }}>
+        <div style={{ position: "relative" }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 10,
-              marginBottom: 8,
+              marginBottom: 12,
             }}
           >
             <h3
               style={{
-                fontSize: 23,
+                fontSize: 21,
                 fontWeight: 500,
                 letterSpacing: "-0.01em",
                 color: hovered ? "#ff6600" : "#f5f5f7",
@@ -171,66 +169,60 @@ function ProjectRow({
                 {project.status}
               </span>
             )}
-
-            <div style={{ flex: 1 }} />
-
-            {project.private ? (
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 5,
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
-                  fontSize: 10,
-                  fontWeight: 400,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase" as const,
-                  color: "#2c2c2e",
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                Private
-              </span>
-            ) : project.github ? (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
-                  fontSize: 11,
-                  fontWeight: 400,
-                  letterSpacing: "0.05em",
-                  color: hovered ? "#ff6600" : "#48484a",
-                  transition: "color 0.3s ease",
-                  textDecoration: "none",
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-              </a>
-            ) : null}
           </div>
 
           <p
             style={{
-              fontSize: 15,
+              fontSize: 14,
               lineHeight: 1.75,
               fontWeight: 300,
               color: "#8e8e93",
-              maxWidth: 580,
+              marginBottom: 16,
             }}
           >
             {project.description}
           </p>
+
+          {/* Bottom meta */}
+          {project.private ? (
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontSize: 10,
+                fontWeight: 400,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase" as const,
+                color: "#2c2c2e",
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Private
+            </span>
+          ) : project.github ? (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                color: hovered ? "#ff6600" : "#48484a",
+                transition: "color 0.3s ease",
+                textDecoration: "none",
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
+            </a>
+          ) : null}
         </div>
       </div>
     </SectionReveal>
@@ -267,11 +259,14 @@ export default function Projects() {
 
         <div
           style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
             borderTop: "1px solid rgba(255,255,255,0.04)",
+            borderLeft: "1px solid rgba(255,255,255,0.04)",
           }}
         >
           {projects.map((project, i) => (
-            <ProjectRow key={project.name} project={project} index={i} />
+            <ProjectCell key={project.name} project={project} index={i} />
           ))}
         </div>
       </div>
