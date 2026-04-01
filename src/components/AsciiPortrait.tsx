@@ -98,7 +98,7 @@ export default function AsciiPortrait() {
             position: "absolute",
             left: "50%",
             top: "50%",
-            transform: "translate(-55%, -50%)",
+            transform: "translate(-48%, -50%)",
           }}
         />
       </div>
