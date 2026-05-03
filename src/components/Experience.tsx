@@ -26,6 +26,13 @@ const experiences = [
 
 const hackathons = [
   {
+    place: "1st Place",
+    event: "Replit Agent Hackathon (Singapore)",
+    description:
+      "Built Remember \u2014 an AR smart glasses simulator for dementia patients with real-time face recognition, contextual information overlay, and a personal knowledge graph powered by live speech extraction.",
+    github: "https://github.com/Fiyxxx/remember",
+  },
+  {
     place: "2nd Place",
     event: "Google DeepMind \u00d7 Cactus Compute Hackathon",
     description:
