@@ -210,7 +210,7 @@ export default function Experience() {
                           color: "#4ade80",
                         }}
                       >
-                        {hack.place.toUpperCase()} //
+                        {hack.place.toUpperCase()} {"//"}
                       </span>
                     )}
                     <h3

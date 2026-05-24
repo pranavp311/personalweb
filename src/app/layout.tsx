@@ -23,8 +23,25 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pranav P",
-  description: "Engineer / AI Researcher / Builder",
+  metadataBase: new URL("https://pranavpappu.dev"),
+  title: "Pranav Pappu",
+  description: "Builder / AI Researcher",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Pranav Pappu",
+    description: "Builder / AI Researcher",
+    url: "/",
+    siteName: "Pranav Pappu",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pranav Pappu",
+    description: "Builder / AI Researcher",
+  },
 };
 
 export default function RootLayout({
