@@ -37,9 +37,10 @@ html {
   font-weight: 600;
   line-height: inherit;
   letter-spacing: -0.02em;
+  margin-left: 0.2em;
   color: #ff8a3d;
   cursor: pointer;
-  text-decoration-line: underline;
+  text-decoration-line: none;
   text-decoration-style: solid;
   text-decoration-color: rgba(255, 102, 0, 0.5);
   text-decoration-thickness: 1px;
@@ -50,6 +51,7 @@ html {
 .brightsea-link:hover,
 .brightsea-link:focus-visible {
   color: #ff6600;
+  text-decoration-line: underline;
   text-decoration-color: #ff6600;
 }
 
