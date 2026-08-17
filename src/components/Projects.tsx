@@ -6,8 +6,23 @@ import SectionReveal from "./SectionReveal";
 const projects = [
   {
     name: "Tweakler",
-    description:
-      "An agent-driven system that turns permissioned website references into distinct, brand-oriented sites through deterministic cloning, adaptation, validation, and human approval gates.",
+    description: (
+      <>
+        An agent-driven system that turns permissioned website references into distinct, brand-oriented
+        sites through deterministic cloning, adaptation, validation, and human approval gates. Already
+        being used and tested by a few studios, including{" "}
+        <a
+          href="https://brightsea.framer.website/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          style={{ color: "inherit", textDecorationColor: "rgba(255,102,0,0.5)" }}
+        >
+          Brightsea Studio
+        </a>
+        .
+      </>
+    ),
     image: "/images/proj-brushstroke.png",
     private: true,
   },

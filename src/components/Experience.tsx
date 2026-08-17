@@ -7,8 +7,22 @@ const experiences = [
   {
     role: "Founder",
     org: "Tweakler",
-    description:
-      "Building an agent-driven system that turns permissioned website references into distinct, brand-oriented sites with deterministic validation and human approval gates.",
+    description: (
+      <>
+        Building an agent-driven system that turns permissioned website references into distinct,
+        brand-oriented sites with deterministic validation and human approval gates; already being used
+        and tested by a few studios, including{" "}
+        <a
+          href="https://brightsea.framer.website/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "inherit", textDecorationColor: "rgba(255,102,0,0.5)" }}
+        >
+          Brightsea Studio
+        </a>
+        .
+      </>
+    ),
   },
   {
     role: "Research Assistant",
