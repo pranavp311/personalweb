@@ -33,13 +33,17 @@ html {
 
 .brightsea-link {
   font-family: var(--font-jetbrains-mono), monospace;
-  font-size: inherit;
+  font-size: 0.98em;
   font-weight: 600;
+  line-height: inherit;
+  letter-spacing: -0.02em;
   color: #ff8a3d;
   cursor: pointer;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
   text-decoration-color: rgba(255, 102, 0, 0.5);
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 2px;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
