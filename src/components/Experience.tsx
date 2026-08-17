@@ -5,22 +5,22 @@ import SectionReveal from "./SectionReveal";
 
 const experiences = [
   {
+    role: "Founder",
+    org: "Tweakler",
+    description:
+      "Building an agent-driven system that turns permissioned website references into distinct, brand-oriented sites with deterministic validation and human approval gates.",
+  },
+  {
     role: "Research Assistant",
     org: "Prof. Ooi Wei Tsang, NUS School of Computing",
     description:
-      "3D Gaussian Splatting optimization and benchmarking.",
+      "Built a dynamic 3D Gaussian Splatting benchmark across multiple methods and datasets with repeatable quality and performance reports.",
   },
   {
     role: "CCSGP Fellow",
-    org: "NUS Centre for Community Service",
+    org: "NUS Centre for Computing for Social Good",
     description:
-      "Building AssessMate to support early childhood intervention assessors working with special needs children.",
-  },
-  {
-    role: "Research Collaborator",
-    org: "Prof. Leong Tze Yun\u2019s RL Group",
-    description:
-      "Exploring neuroevolution, world models, MAP-Elites, and quality-diversity algorithms for clinical time-series and architecture search.",
+      "Building AssessMate, an AI case-notes copilot for structured documentation with early childhood intervention assessors.",
   },
 ];
 

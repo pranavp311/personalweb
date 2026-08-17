@@ -106,7 +106,7 @@ export default function Contact() {
             >
               /
             </span>
-            <TypoLink href="https://www.linkedin.com/in/pranav-pappu-2a6bba1bb/">
+            <TypoLink href="https://www.linkedin.com/in/pranav-pappu/">
               LinkedIn
             </TypoLink>
           </div>

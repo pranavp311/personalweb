@@ -89,7 +89,7 @@ export default function Footer() {
               <SocialLink href="https://github.com/pranavp311" label="GitHub" />
               <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>
               <SocialLink
-                href="https://www.linkedin.com/in/pranav-pappu-2a6bba1bb/"
+                href="https://www.linkedin.com/in/pranav-pappu/"
                 label="LinkedIn"
               />
               <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>

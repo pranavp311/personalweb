@@ -52,7 +52,7 @@ export default function About() {
                   color: "#f5f5f7",
                 }}
               >
-                Year 1 CS student at NUS.
+                Year 2 CS student at NUS.
               </h2>
               <h2
                 style={{
@@ -92,9 +92,9 @@ export default function About() {
                     marginBottom: 20,
                   }}
                 >
-                  Currently a Research Assistant under Prof. Ooi Wei Tsang working on 3D Gaussian
-                  Splatting optimization, CCSGP fellow building assistive tech for special needs
-                  assessment, and a hackathon regular who builds to win.
+                  Currently building Tweakler, working as a Research Assistant under Prof. Ooi Wei Tsang
+                  on dynamic 3D Gaussian Splatting benchmarking, and serving as a CCSGP Fellow building
+                  AssessMate for early childhood intervention assessors.
                 </p>
                 <p
                   style={{

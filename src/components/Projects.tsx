@@ -5,31 +5,31 @@ import SectionReveal from "./SectionReveal";
 
 const projects = [
   {
-    name: "Brushstroke",
+    name: "Tweakler",
     description:
-      "A frontend MCP tool that lets AI agents generate and iterate on UI components in real time. Bringing animated illustration generation to agentic workflows.",
+      "An agent-driven system that turns permissioned website references into distinct, brand-oriented sites through deterministic cloning, adaptation, validation, and human approval gates.",
     image: "/images/proj-brushstroke.png",
     private: true,
   },
   {
-    name: "Agent Island",
+    name: "EvoServe",
     status: "WIP" as const,
     description:
-      "A visual interface for watching CLI and swarm agents work in real time, with quick approval flows for agent requests.",
+      "A harness-quality and evaluation control plane for coding-agent systems that compares policy candidates, independently verifies captured-run evidence, and produces auditable quality and regression reports.",
     image: "/images/proj-agentisland.png",
     private: true,
   },
   {
     name: "GPT-2 from Scratch",
     description:
-      "Full PyTorch implementation surpassing standard benchmarks, plus a custom BPE tokenizer.",
+      "Recreated GPT-2 124M from scratch: tokenizer, transformer blocks, optimizer, mixed precision, and FineWeb Edu evaluation; trained on 10B tokens.",
     image: "/images/proj-gpt2.png",
-    github: "https://github.com/pranavp311/learning_nn",
+    github: "https://github.com/pranavp311/learning_nn/tree/main/NanoGPT_GPT2_124M",
   },
   {
     name: "SecureClaw",
     description:
-      "Multi-agent LLM routing with MAP-Elites and UCB1 bandit policies for intelligent, privacy-aware model selection.",
+      "A privacy router for 12 PII types with three routing modes, on-device/cloud inference, and a 30-case benchmark.",
     image: "/images/proj-secureclaw.png",
     imagePosition: "90% center",
     imageSize: "contain" as const,
@@ -39,7 +39,7 @@ const projects = [
     name: "AssessMate",
     status: "WIP" as const,
     description:
-      "AI case note copilot for early childhood intervention assessors, helping special needs children get attention faster.",
+      "An AI case-notes copilot for structured documentation, piloted with two assessors to measure documentation-time reduction on PDPA-sensitive child-development data.",
     image: "/images/proj-assessmate.png",
     imagePosition: "93% center",
     imageSize: "contain" as const,
