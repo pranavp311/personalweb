@@ -16,7 +16,7 @@ const experiences = [
           href="https://brightsea.framer.website/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "inherit", textDecorationColor: "rgba(255,102,0,0.5)" }}
+          className="brightsea-link"
         >
           Brightsea Studio
         </a>
