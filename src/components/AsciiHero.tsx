@@ -16,15 +16,24 @@ const LINE_HEIGHT = 1.2;
 const LETTER_SPACING_EM = 0.12;
 const LETTER_SPACING_PX = FONT_SIZE * LETTER_SPACING_EM;
 
-const DOT_SPACING = 32;
-const DOT_RADIUS = 3;
-const DOT_BRIGHTNESS_THRESHOLD = 0.05; // hide dots above this brightness
+const BACKGROUND_ARROWS = [
+  { x: "3%", y: "9%", glyph: "→" },
+  { x: "31%", y: "14%", glyph: "↓" },
+  { x: "68%", y: "8%", glyph: "↑" },
+  { x: "96%", y: "13%", glyph: "←" },
+  { x: "6%", y: "45%", glyph: "↑" },
+  { x: "36%", y: "40%", glyph: "←" },
+  { x: "72%", y: "52%", glyph: "→" },
+  { x: "94%", y: "43%", glyph: "↓" },
+  { x: "3%", y: "88%", glyph: "→" },
+  { x: "32%", y: "93%", glyph: "↓" },
+  { x: "67%", y: "86%", glyph: "↑" },
+  { x: "97%", y: "91%", glyph: "←" },
+] as const;
 
 export default function AsciiHero() {
   const preRef = useRef<HTMLPreElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const cyclerRef = useRef<ImageCycler | null>(null);
-  const rendererRef = useRef<AsciiRenderer | null>(null);
   const [loaded, setLoaded] = useState(false);
   const hasSignaledLoad = useRef(false);
 
@@ -37,80 +46,48 @@ export default function AsciiHero() {
       hasSignaledLoad.current = true;
       requestAnimationFrame(() => setLoaded(true));
     }
-
-    // Redraw dot grid, hiding dots where ASCII brightness is high
-    const canvas = canvasRef.current;
-    const cycler = cyclerRef.current;
-    const renderer = rendererRef.current;
-    if (!canvas || !cycler || !renderer) return;
-
-    const grid = cycler.currentGrid;
-    if (!grid) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-
-    if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-    }
-
-    const ctx = canvas.getContext("2d")!;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "rgba(180,180,180,0.15)";
-
-    const cols = renderer.cols;
-    const rows = renderer.rows;
-    // Map from ASCII grid cells to pixel positions
-    const cellW = w / cols;
-    const cellH = h / rows;
-
-    for (let dy = DOT_SPACING / 2; dy < h; dy += DOT_SPACING) {
-      for (let dx = DOT_SPACING / 2; dx < w; dx += DOT_SPACING) {
-        // Find which ASCII grid cell this dot falls in
-        const gc = Math.floor(dx / cellW);
-        const gr = Math.floor(dy / cellH);
-        if (gc < cols && gr < rows) {
-          const brightness = grid[gr * cols + gc];
-          if (brightness > DOT_BRIGHTNESS_THRESHOLD) continue;
-        }
-        ctx.beginPath();
-        ctx.arc(dx, dy, DOT_RADIUS, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
   }, []);
 
   useEffect(() => {
     let mounted = true;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    function handleMotionPreference(event: MediaQueryListEvent) {
+      cyclerRef.current?.setAnimating(!event.matches);
+    }
+
+    motionPreference.addEventListener("change", handleMotionPreference);
 
     async function init() {
       await document.fonts.ready;
       if (!mounted) return;
 
       const renderer = new AsciiRenderer(FONT_SIZE, LINE_HEIGHT, LETTER_SPACING_PX);
-      rendererRef.current = renderer;
 
       const cycler = new ImageCycler(IMAGE_PATHS, renderer, handleFrame);
+      const isLight = document.documentElement.dataset.theme === "light";
+      cycler.setInverted(isLight);
       cyclerRef.current = cycler;
 
-      await cycler.start();
+      await cycler.start(!motionPreference.matches);
     }
 
     init();
 
     return () => {
       mounted = false;
+      motionPreference.removeEventListener("change", handleMotionPreference);
       cyclerRef.current?.stop();
     };
   }, [handleFrame]);
 
   useEffect(() => {
     let resizeTimer: ReturnType<typeof setTimeout>;
+
+    function handleThemeChange() {
+      const isLight = document.documentElement.dataset.theme === "light";
+      cyclerRef.current?.setInverted(isLight);
+    }
 
     function handleResize() {
       clearTimeout(resizeTimer);
@@ -120,8 +97,10 @@ export default function AsciiHero() {
     }
 
     window.addEventListener("resize", handleResize);
+    window.addEventListener("themechange", handleThemeChange);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("themechange", handleThemeChange);
       clearTimeout(resizeTimer);
     };
   }, []);
@@ -134,23 +113,25 @@ export default function AsciiHero() {
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
-        background: "#0a0a0a",
+        background: "var(--color-canvas)",
         cursor: "default",
       }}
     >
       <pre
         ref={preRef}
+        className="ascii-hero__fade"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 0,
-          background: "#0a0a0a",
+          background: "var(--color-canvas)",
           overflow: "hidden",
           pointerEvents: "none",
           userSelect: "none",
-          color: "#ff6600",
+          color: "var(--color-hero-ascii)",
           fontFamily: '"JetBrains Mono", monospace',
           fontSize: `${FONT_SIZE}px`,
+          fontWeight: "var(--font-weight-hero-ascii)",
           lineHeight: LINE_HEIGHT,
           letterSpacing: `${LETTER_SPACING_EM}em`,
           whiteSpace: "pre",
@@ -159,17 +140,35 @@ export default function AsciiHero() {
         }}
       />
 
-      <canvas
-        ref={canvasRef}
+      <div
+        aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 1,
           pointerEvents: "none",
+          color: "var(--color-hero-arrow)",
+          fontFamily: '"JetBrains Mono", monospace',
+          fontSize: 15,
+          fontWeight: 400,
           opacity: loaded ? 1 : 0,
           transition: "opacity 1.2s ease-in",
         }}
-      />
+      >
+        {BACKGROUND_ARROWS.map(({ x, y, glyph }) => (
+          <span
+            key={`${x}-${y}`}
+            style={{
+              position: "absolute",
+              left: x,
+              top: y,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            {glyph}
+          </span>
+        ))}
+      </div>
 
       {/* Gradient backdrop */}
       <div
@@ -178,8 +177,7 @@ export default function AsciiHero() {
           inset: 0,
           zIndex: 5,
           pointerEvents: "none",
-          background:
-            "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.3) 50%, transparent 100%)",
+          background: "var(--gradient-hero-vignette)",
         }}
       />
 
@@ -203,8 +201,8 @@ export default function AsciiHero() {
             fontWeight: 500,
 
             letterSpacing: "0.01em",
-            color: "#d1d1d6",
-            textShadow: "0 0 60px rgba(0,0,0,0.9), 0 0 120px rgba(0,0,0,0.6)",
+            color: "var(--color-text-display)",
+            textShadow: "var(--shadow-hero-title)",
           }}
         >
           Pranav Pappu
@@ -213,11 +211,11 @@ export default function AsciiHero() {
           style={{
             marginTop: 20,
             fontSize: "clamp(12px, 1.2vw, 15px)",
-            fontWeight: 300,
-            letterSpacing: "0.25em",
+            fontWeight: "var(--font-weight-hero-subtitle)",
+            letterSpacing: "var(--letter-spacing-hero-subtitle)",
             textTransform: "uppercase" as const,
-            color: "rgba(245,245,247,0.55)",
-            textShadow: "0 0 40px rgba(0,0,0,0.9)",
+            color: "var(--color-hero-subtitle)",
+            textShadow: "var(--shadow-hero-subtitle)",
           }}
         >
           Builder &nbsp;/&nbsp; AI Researcher
@@ -225,7 +223,11 @@ export default function AsciiHero() {
       </div>
 
       {/* Scroll indicator */}
-      <div
+      <a
+        href="#about"
+        className="ascii-hero__scroll-indicator"
+        onClick={(event) => event.stopPropagation()}
+        aria-label="Scroll to About"
         style={{
           position: "absolute",
           bottom: 40,
@@ -236,6 +238,7 @@ export default function AsciiHero() {
           flexDirection: "column",
           alignItems: "center",
           gap: 8,
+          textDecoration: "none",
         }}
       >
         <span
@@ -244,29 +247,24 @@ export default function AsciiHero() {
             fontWeight: 300,
             letterSpacing: "0.2em",
             textTransform: "uppercase" as const,
-            color: "rgba(245,245,247,0.3)",
+            color: "var(--color-hero-scroll)",
           }}
         >
           Scroll
         </span>
-        <div
+        <span
+          className="ascii-hero__scroll-arrow"
+          aria-hidden="true"
           style={{
-            width: 1,
-            height: 32,
-            overflow: "hidden",
-            position: "relative",
+            color: "var(--color-accent-scroll)",
+            fontFamily: '"JetBrains Mono", monospace',
+            fontSize: 18,
+            lineHeight: 1,
           }}
         >
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "linear-gradient(to bottom, rgba(255,102,0,0.5), transparent)",
-              animation: "pulse 2s ease-in-out infinite",
-            }}
-          />
-        </div>
-      </div>
+          ↓
+        </span>
+      </a>
     </section>
   );
 }

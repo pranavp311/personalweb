@@ -25,9 +25,12 @@ export class ImageCycler {
   private currentFrame = "";
   private _currentGrid: Float32Array | null = null;
   private rafId = 0;
+  private started = false;
+  private animating = false;
+  private wantsAnimation = false;
+  private invertTone = false;
+  private pausedAt = 0;
   private onFrame: (ascii: string) => void;
-
-  get currentGrid(): Float32Array | null { return this._currentGrid; }
 
   private readonly DISPLAY_DURATION = 3500; // ms
   private readonly TRANSITION_DURATION = 2000; // ms
@@ -53,7 +56,9 @@ export class ImageCycler {
     this.onFrame = onFrame;
   }
 
-  async start() {
+  async start(animate = true) {
+    this.wantsAnimation = animate;
+
     // Start rendering as soon as the first image loads, load the rest in background
     const firstImg = await this.loadImage(this.imagePaths[0]);
     this.images[0] = firstImg;
@@ -61,9 +66,14 @@ export class ImageCycler {
 
     this.state = "display";
     this.stateStartTime = performance.now();
-    this.currentFrame = this.renderer.gridToString(this.grids[0]);
+    this._currentGrid = this.grids[0];
+    this.currentFrame = this.renderer.gridToString(
+      this.grids[0],
+      this.invertTone,
+    );
     this.onFrame(this.currentFrame);
-    this.tick();
+    this.started = true;
+    this.setAnimating(this.wantsAnimation);
 
     // Load remaining images in background
     for (let i = 1; i < this.imagePaths.length; i++) {
@@ -72,6 +82,31 @@ export class ImageCycler {
         this.grids[i] = this.renderer.sampleImage(img);
       });
     }
+  }
+
+  setAnimating(animate: boolean) {
+    this.wantsAnimation = animate;
+    if (!this.started || this.animating === animate) return;
+
+    this.animating = animate;
+    if (animate) {
+      const now = performance.now();
+      this.stateStartTime = this.pausedAt
+        ? this.stateStartTime + now - this.pausedAt
+        : now;
+      this.pausedAt = 0;
+      this.rafId = requestAnimationFrame(this.tick);
+    } else {
+      this.pausedAt = performance.now();
+      cancelAnimationFrame(this.rafId);
+      this.rafId = 0;
+    }
+  }
+
+  setInverted(invertTone: boolean) {
+    if (this.invertTone === invertTone) return;
+    this.invertTone = invertTone;
+    this.redraw();
   }
 
   private loadImage(src: string): Promise<HTMLImageElement> {
@@ -93,6 +128,20 @@ export class ImageCycler {
     this.computeAllGrids();
     this.twinkles = [];
     this.scratchGrid = null;
+    this._currentGrid = this.grids[this.currentIndex] ?? null;
+    this.redraw();
+  }
+
+  redraw() {
+    const grid = this._currentGrid ?? this.grids[this.currentIndex];
+    if (!grid) return;
+
+    this._currentGrid = grid;
+    this.currentFrame = this.renderer.gridToString(
+      grid,
+      this.invertTone,
+    );
+    this.onFrame(this.currentFrame);
   }
 
   private spawnTwinkles(now: number, grid: Float32Array) {
@@ -105,7 +154,6 @@ export class ImageCycler {
     );
 
     // Spawn 1-2 new ones up to max
-    const totalCells = grid.length;
     const toSpawn = Math.min(
       2,
       this.MAX_TWINKLES - this.twinkles.length,
@@ -201,7 +249,10 @@ export class ImageCycler {
       }
     } else if (this.state === "transition") {
       const nextIndex = (this.currentIndex + 1) % this.grids.length;
-      const rawT = Math.min(elapsed / this.TRANSITION_DURATION, 1);
+      const rawT = Math.max(
+        0,
+        Math.min(elapsed / this.TRANSITION_DURATION, 1),
+      );
       const t = smootherstep(rawT);
 
       grid = this.renderer.interpolateGrids(
@@ -227,14 +278,19 @@ export class ImageCycler {
     const finalGrid = this.applyTwinkles(grid, now);
 
     this._currentGrid = finalGrid;
-    this.currentFrame = this.renderer.gridToString(finalGrid);
+    this.currentFrame = this.renderer.gridToString(
+      finalGrid,
+      this.invertTone,
+    );
     this.onFrame(this.currentFrame);
 
-    this.rafId = requestAnimationFrame(this.tick);
+    if (this.animating) {
+      this.rafId = requestAnimationFrame(this.tick);
+    }
   };
 
   skipToNext() {
-    if (this.state === "transition") return;
+    if (!this.animating || this.state === "transition") return;
     const nextIndex = (this.currentIndex + 1) % this.grids.length;
     if (!this.grids[nextIndex]) return;
     this.state = "transition";
@@ -243,6 +299,9 @@ export class ImageCycler {
   }
 
   stop() {
+    this.wantsAnimation = false;
+    this.animating = false;
     cancelAnimationFrame(this.rafId);
+    this.rafId = 0;
   }
 }

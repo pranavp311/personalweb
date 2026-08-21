@@ -15,12 +15,12 @@ function TypoLink({ href, children }: { href: string; children: React.ReactNode 
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: "var(--font-jetbrains-mono), monospace",
-        fontSize: 12,
+        fontFamily: "var(--font-ui-mono)",
+        fontSize: 13,
         fontWeight: 500,
-        letterSpacing: "0.15em",
+        letterSpacing: "0.1em",
         textTransform: "uppercase" as const,
-        color: hovered ? "#ff6600" : "#98989d",
+        color: hovered ? "var(--color-accent)" : "var(--color-text-secondary)",
         textDecoration: "none",
         transition: "color 0.3s ease",
       }}
@@ -46,12 +46,12 @@ export default function Contact() {
         <SectionReveal>
           <p
             style={{
-              fontFamily: "var(--font-jetbrains-mono), monospace",
-              fontSize: 11,
+              fontFamily: "var(--font-ui-mono)",
+              fontSize: 12,
               fontWeight: 500,
-              letterSpacing: "0.2em",
+              letterSpacing: "0.14em",
               textTransform: "uppercase" as const,
-              color: "#ff6600",
+              color: "var(--color-accent)",
               marginBottom: 40,
             }}
           >
@@ -60,10 +60,10 @@ export default function Contact() {
 
           <p
             style={{
-              fontFamily: "var(--font-display), serif",
+              fontFamily: "var(--font-content-heading)",
               fontSize: "clamp(32px, 5vw, 52px)",
               fontWeight: 400,
-              color: "#f5f5f7",
+              color: "var(--color-text-primary)",
               lineHeight: 1.2,
               letterSpacing: "-0.01em",
               marginBottom: 24,
@@ -74,12 +74,12 @@ export default function Contact() {
 
           <p
             style={{
-              fontSize: 17,
-              lineHeight: 1.75,
-              fontWeight: 300,
-              color: "#8e8e93",
+              fontSize: 18,
+              lineHeight: 1.65,
+              fontWeight: "var(--font-weight-body-copy)",
+              color: "var(--color-text-secondary)",
               marginBottom: 48,
-              maxWidth: 420,
+              maxWidth: 460,
               marginLeft: "auto",
               marginRight: "auto",
             }}
@@ -98,9 +98,9 @@ export default function Contact() {
             <TypoLink href="mailto:pappupranav311@gmail.com">Email</TypoLink>
             <span
               style={{
-                fontFamily: "var(--font-jetbrains-mono), monospace",
-                fontSize: 12,
-                color: "#2c2c2e",
+                fontFamily: "var(--font-ui-mono)",
+                fontSize: 13,
+                color: "var(--color-text-secondary)",
                 letterSpacing: "0.1em",
               }}
             >
@@ -114,10 +114,10 @@ export default function Contact() {
           {/* ASCII dot strip — bookend motif */}
           <p
             style={{
-              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontFamily: "var(--font-ui-mono)",
               fontSize: 7,
               letterSpacing: "0.4em",
-              color: "rgba(255,102,0,0.08)",
+              color: "var(--color-accent-divider-soft)",
               marginTop: 64,
               userSelect: "none",
             }}

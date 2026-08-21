@@ -5,7 +5,7 @@ import AsciiPortrait from "./AsciiPortrait";
 
 export default function About() {
   return (
-    <section style={{ padding: "140px 0 100px" }}>
+    <section id="about" style={{ padding: "140px 0 100px" }}>
       <div
         style={{
           maxWidth: 900,
@@ -18,12 +18,12 @@ export default function About() {
         <SectionReveal>
           <p
             style={{
-              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontFamily: "var(--font-ui-mono)",
               fontSize: 11,
               fontWeight: 500,
               letterSpacing: "0.2em",
               textTransform: "uppercase" as const,
-              color: "#ff6600",
+              color: "var(--color-accent)",
               marginBottom: 48,
             }}
           >
@@ -44,25 +44,25 @@ export default function About() {
             <SectionReveal delay={100}>
               <h2
                 style={{
-                  fontFamily: "var(--font-display), serif",
+                  fontFamily: "var(--font-content-heading)",
                   fontSize: "clamp(32px, 5vw, 52px)",
                   lineHeight: 1.2,
                   fontWeight: 400,
                   letterSpacing: "-0.01em",
-                  color: "#f5f5f7",
+                  color: "var(--color-text-primary)",
                 }}
               >
                 Year 2 CS student at NUS.
               </h2>
               <h2
                 style={{
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontFamily: "var(--font-ui-mono)",
                   fontSize: "clamp(14px, 1.8vw, 18px)",
                   lineHeight: 1.6,
                   fontWeight: 400,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase" as const,
-                  color: "#48484a",
+                  color: "var(--color-text-muted)",
                   marginTop: 20,
                 }}
               >
@@ -76,7 +76,7 @@ export default function About() {
                 style={{
                   width: 48,
                   height: 1,
-                  background: "rgba(255,102,0,0.4)",
+                  background: "var(--color-accent-rule)",
                   marginTop: 36,
                   marginBottom: 32,
                 }}
@@ -88,7 +88,7 @@ export default function About() {
                     fontSize: 17,
                     lineHeight: 1.8,
                     fontWeight: 300,
-                    color: "#98989d",
+                    color: "var(--color-text-secondary)",
                     marginBottom: 20,
                   }}
                 >
@@ -101,7 +101,7 @@ export default function About() {
                     fontSize: 17,
                     lineHeight: 1.8,
                     fontWeight: 300,
-                    color: "#98989d",
+                    color: "var(--color-text-secondary)",
                   }}
                 >
                   Interested in AI infrastructure, developer tools, healthtech,

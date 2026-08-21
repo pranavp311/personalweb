@@ -35,6 +35,7 @@ export default function SectionReveal({
   return (
     <div
       ref={ref}
+      className="section-reveal"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(28px)",

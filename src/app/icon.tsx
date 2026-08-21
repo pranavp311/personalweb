@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { iconColors } from "@/lib/theme";
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
@@ -13,7 +14,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0a0a0a",
+          background: iconColors.background,
           borderRadius: 4,
         }}
       >
@@ -22,7 +23,7 @@ export default function Icon() {
             fontSize: 22,
             fontFamily: "monospace",
             fontWeight: 700,
-            color: "#ff6600",
+            color: iconColors.foreground,
             lineHeight: 1,
           }}
         >

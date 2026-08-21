@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono, Bodoni_Moda } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import ThemeToggle from "@/components/ThemeToggle";
+import { themeCss } from "@/lib/theme";
+import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme-preference";
 import "./globals.css";
+import "./fonts.css";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -44,27 +48,26 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInitScript = `try{const theme=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});if(theme==="light")document.documentElement.dataset.theme="light"}catch{}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable}`}>
-      <body
-        style={{
-          margin: 0,
-          padding: 0,
-          background: "#0a0a0a",
-          color: "#f5f5f7",
-          fontFamily:
-            'var(--font-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-          WebkitFontSmoothing: "antialiased",
-          MozOsxFontSmoothing: "grayscale",
-          overflowX: "hidden",
-          minHeight: "100vh",
-        }}
-      >
+    <html
+      lang="en"
+      data-theme={DEFAULT_THEME}
+      suppressHydrationWarning
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <style id="theme-tokens">{themeCss}</style>
+      </head>
+      <body>
+        <ThemeToggle />
         {children}
         <Analytics />
       </body>

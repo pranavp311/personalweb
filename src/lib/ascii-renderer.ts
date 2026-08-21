@@ -1,4 +1,6 @@
 const CHAR_RAMP = " .,:;+*#%@";
+const LIGHT_VISIBLE_THRESHOLD = 0.03;
+const LIGHT_DENSITY_GAMMA = 0.64;
 
 export class AsciiRenderer {
   private canvas: HTMLCanvasElement;
@@ -74,7 +76,10 @@ export class AsciiRenderer {
     return grid;
   }
 
-  gridToString(grid: Float32Array): string {
+  gridToString(
+    grid: Float32Array,
+    invertTone = false,
+  ): string {
     const { _cols: cols, _rows: rows } = this;
     const rampLen = CHAR_RAMP.length - 1;
     const lines: string[] = [];
@@ -83,8 +88,16 @@ export class AsciiRenderer {
       let line = "";
       for (let x = 0; x < cols; x++) {
         const brightness = grid[y * cols + x];
-        const idx = Math.round(brightness * rampLen);
-        line += CHAR_RAMP[idx];
+        if (!invertTone) {
+          line += CHAR_RAMP[Math.round(brightness * rampLen)];
+        } else {
+          const idx = brightness >= LIGHT_VISIBLE_THRESHOLD
+            ? Math.round(
+                Math.pow(1 - brightness, LIGHT_DENSITY_GAMMA) * rampLen,
+              )
+            : 0;
+          line += CHAR_RAMP[idx];
+        }
       }
       lines.push(line);
     }

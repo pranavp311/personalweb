@@ -32,8 +32,7 @@ export default function AsciiPortrait() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage:
-            "radial-gradient(circle, rgba(0,0,0,0.6) 0.6px, transparent 0.6px)",
+          backgroundImage: "var(--pattern-portrait-dots)",
           backgroundSize: "2.5px 2.5px",
           pointerEvents: "none",
         }}
@@ -44,7 +43,7 @@ export default function AsciiPortrait() {
           position: "absolute",
           inset: 0,
           borderRadius: "50%",
-          border: "1px solid rgba(255,255,255,0.06)",
+          border: "1px solid var(--color-border-portrait)",
           pointerEvents: "none",
         }}
       />

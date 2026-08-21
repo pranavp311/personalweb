@@ -14,12 +14,12 @@ function SocialLink({ href, label }: { href: string; label: string }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: "var(--font-jetbrains-mono), monospace",
-        fontSize: 11,
-        fontWeight: 400,
-        letterSpacing: "0.1em",
+        fontFamily: "var(--font-ui-mono)",
+        fontSize: 12,
+        fontWeight: 500,
+        letterSpacing: "0.08em",
         textTransform: "uppercase" as const,
-        color: hovered ? "#ff6600" : "#636366",
+        color: hovered ? "var(--color-accent)" : "var(--color-text-secondary)",
         textDecoration: "none",
         transition: "color 0.3s ease",
       }}
@@ -55,10 +55,10 @@ export default function Footer() {
             <div>
               <p
                 style={{
-                  fontFamily: "var(--font-display), serif",
-                  fontSize: 18,
+                  fontFamily: "var(--font-content-heading)",
+                  fontSize: 20,
                   fontWeight: 400,
-                  color: "#48484a",
+                  color: "var(--color-text-secondary)",
                   marginBottom: 6,
                 }}
               >
@@ -66,12 +66,12 @@ export default function Footer() {
               </p>
               <p
                 style={{
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
-                  fontSize: 10,
-                  fontWeight: 400,
-                  letterSpacing: "0.15em",
+                  fontFamily: "var(--font-ui-mono)",
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: "0.1em",
                   textTransform: "uppercase" as const,
-                  color: "#2c2c2e",
+                  color: "var(--color-text-secondary)",
                 }}
               >
                 CS @ NUS / Singapore
@@ -87,12 +87,12 @@ export default function Footer() {
               }}
             >
               <SocialLink href="https://github.com/pranavp311" label="GitHub" />
-              <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>
+              <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>
               <SocialLink
                 href="https://www.linkedin.com/in/pranav-pappu/"
                 label="LinkedIn"
               />
-              <span style={{ color: "#2c2c2e", fontSize: 10 }}>·</span>
+              <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>
               <SocialLink href="mailto:pappupranav311@gmail.com" label="Email" />
             </div>
           </div>

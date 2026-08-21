@@ -80,7 +80,7 @@ function ArrowLink({ href }: { href: string }) {
       style={{
         display: "inline-flex",
         alignItems: "center",
-        color: hovered ? "#ff6600" : "#48484a",
+        color: hovered ? "var(--color-accent)" : "var(--color-text-muted)",
         textDecoration: "none",
         transition: "color 0.3s ease",
       }}
@@ -108,12 +108,12 @@ export default function Experience() {
         <SectionReveal>
           <p
             style={{
-              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontFamily: "var(--font-ui-mono)",
               fontSize: 11,
               fontWeight: 500,
               letterSpacing: "0.2em",
               textTransform: "uppercase" as const,
-              color: "#ff6600",
+              color: "var(--color-accent)",
               marginBottom: 40,
             }}
           >
@@ -123,7 +123,7 @@ export default function Experience() {
 
         <div
           style={{
-            borderLeft: "1px solid rgba(255,102,0,0.15)",
+            borderLeft: "1px solid var(--color-accent-border)",
             paddingLeft: 32,
             display: "flex",
             flexDirection: "column",
@@ -138,7 +138,7 @@ export default function Experience() {
                     fontSize: 21,
                     fontWeight: 500,
                     letterSpacing: "-0.01em",
-                    color: "#f5f5f7",
+                    color: "var(--color-text-primary)",
                     marginBottom: 6,
                   }}
                 >
@@ -146,12 +146,12 @@ export default function Experience() {
                 </h3>
                 <p
                   style={{
-                    fontFamily: "var(--font-jetbrains-mono), monospace",
+                    fontFamily: "var(--font-ui-mono)",
                     fontSize: 11,
                     fontWeight: 400,
                     letterSpacing: "0.08em",
                     textTransform: "uppercase" as const,
-                    color: "#636366",
+                    color: "var(--color-text-muted)",
                     marginBottom: 14,
                   }}
                 >
@@ -162,7 +162,7 @@ export default function Experience() {
                     fontSize: 15,
                     lineHeight: 1.75,
                     fontWeight: 300,
-                    color: "#8e8e93",
+                    color: "var(--color-text-secondary)",
                   }}
                 >
                   {exp.description}
@@ -177,12 +177,12 @@ export default function Experience() {
           <SectionReveal>
             <p
               style={{
-                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontFamily: "var(--font-ui-mono)",
                 fontSize: 11,
                 fontWeight: 500,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase" as const,
-                color: "#ff6600",
+                color: "var(--color-accent)",
                 marginBottom: 40,
               }}
             >
@@ -192,7 +192,7 @@ export default function Experience() {
 
           <div
             style={{
-              borderLeft: "1px solid rgba(255,102,0,0.15)",
+              borderLeft: "1px solid var(--color-accent-border)",
               paddingLeft: 32,
               display: "flex",
               flexDirection: "column",
@@ -216,12 +216,12 @@ export default function Experience() {
                     {hack.place && (
                       <span
                         style={{
-                          fontFamily: "var(--font-jetbrains-mono), monospace",
+                          fontFamily: "var(--font-ui-mono)",
                           fontSize: 11,
                           fontWeight: 500,
                           letterSpacing: "0.08em",
                           textTransform: "uppercase" as const,
-                          color: "#4ade80",
+                          color: "var(--color-success)",
                         }}
                       >
                         {hack.place.toUpperCase()} {"//"}
@@ -232,7 +232,7 @@ export default function Experience() {
                         fontSize: 21,
                         fontWeight: 500,
                         letterSpacing: "-0.01em",
-                        color: "#f5f5f7",
+                        color: "var(--color-text-primary)",
                       }}
                     >
                       {hack.event}
@@ -248,7 +248,7 @@ export default function Experience() {
                       fontSize: 14,
                       lineHeight: 1.7,
                       fontWeight: 300,
-                      color: "#6e6e73",
+                      color: "var(--color-text-secondary)",
                     }}
                   >
                     {hack.description}

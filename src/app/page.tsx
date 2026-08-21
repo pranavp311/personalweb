@@ -20,10 +20,10 @@ function SectionBreak() {
     >
       <p
         style={{
-          fontFamily: "var(--font-jetbrains-mono), monospace",
+          fontFamily: "var(--font-ui-mono)",
           fontSize: 7,
           letterSpacing: "0.5em",
-          color: "rgba(255,102,0,0.12)",
+          color: "var(--color-accent-divider)",
           userSelect: "none",
         }}
       >

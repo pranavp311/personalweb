@@ -94,8 +94,8 @@ function ProjectCell({
           padding: "28px 24px",
           cursor: project.github ? "pointer" : "default",
           overflow: "hidden",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
-          borderRight: index % 2 === 0 ? "1px solid rgba(255,255,255,0.04)" : "none",
+          borderBottom: "1px solid var(--color-border)",
+          borderRight: index % 2 === 0 ? "1px solid var(--color-border)" : "none",
           display: "flex",
           flexDirection: "column",
           flex: 1,
@@ -122,8 +122,7 @@ function ProjectCell({
               style={{
                 position: "absolute",
                 inset: 0,
-                backgroundImage:
-                  "radial-gradient(circle, rgba(128,128,128,0.4) 0.5px, transparent 0.5px)",
+                backgroundImage: "var(--pattern-project-dots)",
                 backgroundSize: "3px 3px",
                 opacity: hovered ? 0.4 : 0,
                 transition: "opacity 0.5s ease",
@@ -136,11 +135,11 @@ function ProjectCell({
         {/* Index number */}
         <span
           style={{
-            fontFamily: "var(--font-display), serif",
+            fontFamily: "var(--font-content-heading)",
             fontSize: 36,
             fontWeight: 400,
             lineHeight: 1,
-            color: "rgba(255,255,255,0.05)",
+            color: "var(--color-project-index)",
             position: "absolute",
             top: 24,
             right: 24,
@@ -164,7 +163,7 @@ function ProjectCell({
                 fontSize: 21,
                 fontWeight: 500,
                 letterSpacing: "-0.01em",
-                color: hovered ? "#ff6600" : "#f5f5f7",
+                color: hovered ? "var(--color-accent)" : "var(--color-text-primary)",
                 transition: "color 0.3s ease",
               }}
             >
@@ -174,12 +173,12 @@ function ProjectCell({
             {project.status && (
               <span
                 style={{
-                  fontFamily: "var(--font-jetbrains-mono), monospace",
+                  fontFamily: "var(--font-ui-mono)",
                   fontSize: 9,
                   fontWeight: 500,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase" as const,
-                  color: "#ff6600",
+                  color: "var(--color-accent)",
                   opacity: 0.6,
                 }}
               >
@@ -193,7 +192,7 @@ function ProjectCell({
               fontSize: 14,
               lineHeight: 1.75,
               fontWeight: 300,
-              color: "#8e8e93",
+              color: "var(--color-text-secondary)",
               marginBottom: 16,
             }}
           >
@@ -208,12 +207,12 @@ function ProjectCell({
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 5,
-                fontFamily: "var(--font-jetbrains-mono), monospace",
+                fontFamily: "var(--font-ui-mono)",
                 fontSize: 10,
                 fontWeight: 400,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase" as const,
-                color: "#2c2c2e",
+                color: "var(--color-text-muted)",
               }}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -231,7 +230,7 @@ function ProjectCell({
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                color: hovered ? "#ff6600" : "#48484a",
+                color: hovered ? "var(--color-accent)" : "var(--color-text-muted)",
                 transition: "color 0.3s ease",
                 textDecoration: "none",
               }}
@@ -263,12 +262,12 @@ export default function Projects() {
         <SectionReveal>
           <p
             style={{
-              fontFamily: "var(--font-jetbrains-mono), monospace",
+              fontFamily: "var(--font-ui-mono)",
               fontSize: 11,
               fontWeight: 500,
               letterSpacing: "0.2em",
               textTransform: "uppercase" as const,
-              color: "#ff6600",
+              color: "var(--color-accent)",
               marginBottom: 48,
             }}
           >
@@ -280,8 +279,8 @@ export default function Projects() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            borderTop: "1px solid rgba(255,255,255,0.04)",
-            borderLeft: "1px solid rgba(255,255,255,0.04)",
+            borderTop: "1px solid var(--color-border)",
+            borderLeft: "1px solid var(--color-border)",
           }}
         >
           {projects.map((project, i) => (
