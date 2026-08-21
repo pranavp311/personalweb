@@ -93,7 +93,7 @@ export default function Footer() {
                 label="LinkedIn"
               />
               <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>
-              <SocialLink href="mailto:pappupranav311@gmail.com" label="Email" />
+              <SocialLink href="mailto:pranavpappu@u.nus.edu" label="Email" />
             </div>
           </div>
         </SectionReveal>

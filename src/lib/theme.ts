@@ -1,6 +1,6 @@
 import "server-only";
 
-import { DEFAULT_THEME } from "./theme-preference";
+import { DEFAULT_THEME, type Theme } from "./theme-preference";
 
 const darkTheme = {
   "--color-scheme": "dark",
@@ -90,9 +90,21 @@ const declarations = (tokens: Record<string, string>) =>
     .map(([name, value]) => `${name}:${value}`)
     .join(";");
 
-export const themeCss = `:root,[data-theme="${DEFAULT_THEME}"]{${declarations(darkTheme)}}[data-theme="light"]{${declarations(lightTheme)}}`;
+const themes = { dark: darkTheme, light: lightTheme } satisfies Record<
+  Theme,
+  Record<string, string>
+>;
+const alternateTheme: Theme = DEFAULT_THEME === "light" ? "dark" : "light";
 
-export const iconColors = {
-  background: darkTheme["--color-canvas"],
-  foreground: darkTheme["--color-accent"],
+export const themeCss = `:root,[data-theme="${DEFAULT_THEME}"]{${declarations(themes[DEFAULT_THEME])}}[data-theme="${alternateTheme}"]{${declarations(themes[alternateTheme])}}`;
+
+export const faviconColors = {
+  dark: {
+    background: "#000000",
+    foreground: darkTheme["--color-accent"],
+  },
+  light: {
+    background: "#ffffff",
+    foreground: "#000000",
+  },
 };

@@ -95,7 +95,7 @@ export default function Contact() {
               gap: 20,
             }}
           >
-            <TypoLink href="mailto:pappupranav311@gmail.com">Email</TypoLink>
+            <TypoLink href="mailto:pranavpappu@u.nus.edu">Email</TypoLink>
             <span
               style={{
                 fontFamily: "var(--font-ui-mono)",

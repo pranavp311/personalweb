@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono, Bodoni_Moda } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import ThemeToggle from "@/components/ThemeToggle";
+import { defaultFavicon, faviconInitScript } from "@/lib/favicon";
 import { themeCss } from "@/lib/theme";
-import { DEFAULT_THEME, THEME_STORAGE_KEY } from "@/lib/theme-preference";
+import { DEFAULT_THEME } from "@/lib/theme-preference";
 import "./globals.css";
 import "./fonts.css";
 
@@ -48,8 +49,6 @@ export const metadata: Metadata = {
   },
 };
 
-const themeInitScript = `try{const theme=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)});if(theme==="light")document.documentElement.dataset.theme="light"}catch{}`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -63,7 +62,14 @@ export default function RootLayout({
       className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable}`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <link
+          id="site-favicon"
+          rel="icon"
+          href={defaultFavicon}
+          type="image/svg+xml"
+          sizes="any"
+        />
+        <script dangerouslySetInnerHTML={{ __html: faviconInitScript }} />
         <style id="theme-tokens">{themeCss}</style>
       </head>
       <body>
