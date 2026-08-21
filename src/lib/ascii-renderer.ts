@@ -1,5 +1,5 @@
 const CHAR_RAMP = " .,:;+*#%@";
-const LIGHT_VISIBLE_THRESHOLD = 0.03;
+const LIGHT_VISIBLE_THRESHOLD = 0.002;
 const LIGHT_DENSITY_GAMMA = 0.64;
 
 export class AsciiRenderer {

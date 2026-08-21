@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono, Bodoni_Moda } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import FaviconController from "@/components/FaviconController";
 import ThemeToggle from "@/components/ThemeToggle";
-import { defaultFavicon, faviconInitScript } from "@/lib/favicon";
+import {
+  defaultFavicon,
+  faviconAnimation,
+  themeInitScript,
+} from "@/lib/favicon";
 import { themeCss } from "@/lib/theme";
 import { DEFAULT_THEME } from "@/lib/theme-preference";
 import "./globals.css";
@@ -69,10 +74,11 @@ export default function RootLayout({
           type="image/svg+xml"
           sizes="any"
         />
-        <script dangerouslySetInnerHTML={{ __html: faviconInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <style id="theme-tokens">{themeCss}</style>
       </head>
       <body>
+        <FaviconController {...faviconAnimation} />
         <ThemeToggle />
         {children}
         <Analytics />
