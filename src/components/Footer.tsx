@@ -5,13 +5,13 @@ import SectionReveal from "./SectionReveal";
 
 function SocialLink({ href, label }: { href: string; label: string }) {
   const [hovered, setHovered] = useState(false);
-  const isExternal = href.startsWith("http");
+  const opensInNewTab = href.startsWith("http") || href.endsWith(".pdf");
 
   return (
     <a
       href={href}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
+      target={opensInNewTab ? "_blank" : undefined}
+      rel={opensInNewTab ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -88,6 +88,8 @@ export default function Footer() {
               }}
             >
               <SocialLink href="/blog" label="Blog" />
+              <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>
+              <SocialLink href="/pranav-pappu-resume.pdf" label="Resume" />
               <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>
               <SocialLink href="https://github.com/pranavp311" label="GitHub" />
               <span style={{ color: "var(--color-text-secondary)", fontSize: 11 }}>·</span>

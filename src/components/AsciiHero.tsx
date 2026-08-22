@@ -119,13 +119,24 @@ export default function AsciiHero() {
         cursor: "default",
       }}
     >
-      <Link
-        href="/blog"
-        className={blogLinkStyles.link}
-        onClick={(event) => event.stopPropagation()}
-      >
-        Blog
-      </Link>
+      <nav className={blogLinkStyles.nav} aria-label="Primary">
+        <Link
+          href="/blog"
+          className={blogLinkStyles.link}
+          onClick={(event) => event.stopPropagation()}
+        >
+          Blog
+        </Link>
+        <a
+          href="/pranav-pappu-resume.pdf"
+          className={blogLinkStyles.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(event) => event.stopPropagation()}
+        >
+          Resume
+        </a>
+      </nav>
 
       <pre
         ref={preRef}
