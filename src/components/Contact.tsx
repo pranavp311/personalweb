@@ -5,13 +5,13 @@ import SectionReveal from "./SectionReveal";
 
 function TypoLink({ href, children }: { href: string; children: React.ReactNode }) {
   const [hovered, setHovered] = useState(false);
-  const isMailto = href.startsWith("mailto");
+  const isExternal = href.startsWith("http");
 
   return (
     <a
       href={href}
-      target={isMailto ? undefined : "_blank"}
-      rel={isMailto ? undefined : "noopener noreferrer"}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -109,6 +109,17 @@ export default function Contact() {
             <TypoLink href="https://www.linkedin.com/in/pranav-pappu/">
               LinkedIn
             </TypoLink>
+            <span
+              style={{
+                fontFamily: "var(--font-ui-mono)",
+                fontSize: 13,
+                color: "var(--color-text-secondary)",
+                letterSpacing: "0.1em",
+              }}
+            >
+              /
+            </span>
+            <TypoLink href="/blog">Blog</TypoLink>
           </div>
 
           {/* ASCII dot strip — bookend motif */}

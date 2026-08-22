@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono, Bodoni_Moda } from "next/font/google";
+import {
+  Plus_Jakarta_Sans,
+  JetBrains_Mono,
+  Bodoni_Moda,
+  Inter,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import FaviconController from "@/components/FaviconController";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -28,6 +33,12 @@ const bodoni = Bodoni_Moda({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+const blogUi = Inter({
+  variable: "--font-blog-ui",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
@@ -64,7 +75,7 @@ export default function RootLayout({
       lang="en"
       data-theme={DEFAULT_THEME}
       suppressHydrationWarning
-      className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable}`}
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable} ${blogUi.variable}`}
     >
       <head>
         <link

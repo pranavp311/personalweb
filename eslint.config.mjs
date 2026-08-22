@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Tweakler reference clones are disposable inspection artifacts, not app code.
+    ".tweakler/**",
   ]),
 ]);
 

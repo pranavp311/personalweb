@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { AsciiRenderer } from "@/lib/ascii-renderer";
 import { ImageCycler } from "@/lib/image-cycler";
+import blogLinkStyles from "./HeroBlogLink.module.css";
 
 const IMAGE_PATHS = [
   "/images/hero-1.jpg",
@@ -117,6 +119,14 @@ export default function AsciiHero() {
         cursor: "default",
       }}
     >
+      <Link
+        href="/blog"
+        className={blogLinkStyles.link}
+        onClick={(event) => event.stopPropagation()}
+      >
+        Blog
+      </Link>
+
       <pre
         ref={preRef}
         className="ascii-hero__fade"
