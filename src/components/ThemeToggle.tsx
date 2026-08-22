@@ -1,15 +1,8 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme-preference";
 
 export default function ThemeToggle() {
-  const pathname = usePathname();
-
-  if (pathname === "/blog" || pathname.startsWith("/blog/")) {
-    return null;
-  }
-
   function toggleTheme() {
     const root = document.documentElement;
     const nextTheme: Theme = root.dataset.theme === "light" ? "dark" : "light";
