@@ -249,12 +249,13 @@ export default function AsciiHero() {
           alignItems: "center",
           gap: 8,
           textDecoration: "none",
+          textShadow: "var(--shadow-hero-scroll)",
         }}
       >
         <span
           style={{
             fontSize: 11,
-            fontWeight: 300,
+            fontWeight: "var(--font-weight-hero-scroll)",
             letterSpacing: "0.2em",
             textTransform: "uppercase" as const,
             color: "var(--color-hero-scroll)",
@@ -266,7 +267,7 @@ export default function AsciiHero() {
           className="ascii-hero__scroll-arrow"
           aria-hidden="true"
           style={{
-            color: "var(--color-accent-scroll)",
+            color: "var(--color-hero-scroll-arrow)",
             fontFamily: '"JetBrains Mono", monospace',
             fontSize: 18,
             lineHeight: 1,

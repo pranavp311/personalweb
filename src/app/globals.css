@@ -49,7 +49,7 @@ body {
 @keyframes scrollCue {
   0%,
   100% {
-    opacity: 0.45;
+    opacity: var(--opacity-hero-scroll-min);
     transform: translateY(0);
   }
   50% {
