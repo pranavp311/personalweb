@@ -54,6 +54,12 @@ const hackathons = [
     github: "https://github.com/pranavp311/secureclaw",
   },
   {
+    place: "Top 30%",
+    event: "NVIDIA Nemotron Model Reasoning Challenge",
+    description:
+      "Used a MAP-Elites-style search over fine-tuning recipes, then trained a rank-32 attention LoRA on 14,400 solver-generated reasoning traces for Nemotron-3-Nano-30B; placed in the 70th percentile in a field of 5,223 participants.",
+  },
+  {
     event: "Hack&Roll 2026",
     description:
       "Built JustPromptBro — a VSCode extension with event-driven keystroke tracking, real-time behavioural feedback, and a Solana smart contract for on-chain game logic.",
