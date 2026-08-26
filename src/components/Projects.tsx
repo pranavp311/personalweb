@@ -12,7 +12,7 @@ const projects = [
         sites through deterministic cloning, adaptation, validation, and human approval gates. Already
         being used and tested by a few studios, including{" "}
         <a
-          href="https://brightsea.framer.website/"
+          href="https://brightseastudio.com/"
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}

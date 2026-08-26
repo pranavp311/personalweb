@@ -13,7 +13,7 @@ const experiences = [
         brand-oriented sites with deterministic validation and human approval gates; already being used
         and tested by a few studios, including{" "}
         <a
-          href="https://brightsea.framer.website/"
+          href="https://brightseastudio.com/"
           target="_blank"
           rel="noopener noreferrer"
           className="brightsea-link"
