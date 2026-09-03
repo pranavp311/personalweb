@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function AsciiPortrait() {
   return (
     <div
@@ -13,9 +15,13 @@ export default function AsciiPortrait() {
       }}
     >
       {/* Original image */}
-      <img
+      <Image
         src="/images/profile.jpg"
         alt="Pranav Pappu"
+        width={220}
+        height={220}
+        draggable={false}
+        onDragStart={(event) => event.preventDefault()}
         style={{
           width: "100%",
           height: "100%",
@@ -25,6 +31,7 @@ export default function AsciiPortrait() {
           transform: "scale(1.8)",
           transformOrigin: "45% 40%",
           filter: "brightness(0.8) contrast(1.15)",
+          userSelect: "none",
         }}
       />
       {/* Dot-grid overlay */}

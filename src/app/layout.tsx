@@ -7,7 +7,7 @@ import {
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import FaviconController from "@/components/FaviconController";
-import ThemeToggle from "@/components/ThemeToggle";
+import SiteHeader from "@/components/SiteHeader";
 import {
   defaultFavicon,
   faviconAnimation,
@@ -90,7 +90,7 @@ export default function RootLayout({
       </head>
       <body>
         <FaviconController {...faviconAnimation} />
-        <ThemeToggle />
+        <SiteHeader />
         {children}
         <Analytics />
       </body>

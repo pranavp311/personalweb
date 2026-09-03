@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { AsciiRenderer } from "@/lib/ascii-renderer";
 import { ImageCycler } from "@/lib/image-cycler";
-import blogLinkStyles from "./HeroBlogLink.module.css";
 
 const IMAGE_PATHS = [
   "/images/hero-1.jpg",
@@ -119,25 +117,6 @@ export default function AsciiHero() {
         cursor: "default",
       }}
     >
-      <nav className={blogLinkStyles.nav} aria-label="Primary">
-        <Link
-          href="/blog"
-          className={blogLinkStyles.link}
-          onClick={(event) => event.stopPropagation()}
-        >
-          Blog
-        </Link>
-        <a
-          href="/pranav-pappu-resume.pdf"
-          className={blogLinkStyles.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(event) => event.stopPropagation()}
-        >
-          Resume
-        </a>
-      </nav>
-
       <pre
         ref={preRef}
         className="ascii-hero__fade"

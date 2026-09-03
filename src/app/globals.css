@@ -87,16 +87,13 @@ body {
 }
 
 .theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 28px;
-  z-index: 50;
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   place-items: center;
   border: 0;
+  border-radius: 50%;
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
@@ -106,6 +103,7 @@ body {
 }
 
 .theme-toggle:hover {
+  background: var(--color-toggle-hover);
   color: var(--color-text-primary);
 }
 
@@ -168,7 +166,4 @@ body {
     animation: none !important;
   }
 
-  .theme-toggle:hover {
-    transform: none;
-  }
 }
