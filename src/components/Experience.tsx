@@ -5,6 +5,12 @@ import SectionReveal from "./SectionReveal";
 
 const experiences = [
   {
+    role: "AI Engineer Intern",
+    org: "Ebb & Flow",
+    description:
+      "Building AI systems for restaurant HR workflows, including hiring, staff scheduling, and rostering.",
+  },
+  {
     role: "Founder",
     org: "Tweakler",
     description: (
