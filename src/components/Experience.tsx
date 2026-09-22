@@ -6,9 +6,22 @@ import SectionReveal from "./SectionReveal";
 const experiences = [
   {
     role: "AI Engineer Intern",
-    org: "Ebb & Flow",
+    org: (
+      <a
+        href="https://www.missionsystems.ai/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          color: "inherit",
+          textDecorationColor: "var(--color-accent-border)",
+          textUnderlineOffset: 2,
+        }}
+      >
+        Mission Systems
+      </a>
+    ),
     description:
-      "Building AI systems for restaurant HR workflows, including hiring, staff scheduling, and rostering.",
+      "Built meeting intelligence that turns recordings into secure transcripts, action items, and searchable company knowledge for Launchpad, Mission Systems' AI operations platform for hospitality businesses. Building a secure internal workflow automation platform to replace fourteen production n8n workflows.",
   },
   {
     role: "Founder",
