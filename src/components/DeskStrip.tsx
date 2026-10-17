@@ -1,10 +1,16 @@
 import GithubHeatmap from "./GithubHeatmap";
+import deck from "./CardDeck.module.css";
 import styles from "./DeskStrip.module.css";
 
 export default function DeskStrip() {
   return (
-    <section className={styles.strip} aria-label="Activity">
-      <GithubHeatmap className={styles.window} />
-    </section>
+    <div className={styles.strip}>
+      <section className={deck.panel} aria-label="Activity">
+        <span className={deck.panelLabel}>Activity</span>
+        <div className={deck.panelBody}>
+          <GithubHeatmap className={styles.window} />
+        </div>
+      </section>
+    </div>
   );
 }

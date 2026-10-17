@@ -8,7 +8,6 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
-import DeckDecor from "./DeckDecor";
 import ProjectVisual from "./ProjectVisuals";
 import styles from "./CardDeck.module.css";
 
@@ -152,6 +151,17 @@ const CONTACTS = [
   { label: "Blog", detail: "", href: "/blog", icon: "blog", external: false },
   { label: "Resume", detail: "", href: "/pranav-pappu-resume.pdf", icon: "resume", external: true },
 ] as const;
+
+// A section in the style of a print panel: a black label chip, a left rule, and a dot-textured
+// field the cards sit on.
+function Panel({ id, label, bodyClass, children }: { id: string; label: string; bodyClass: string; children: ReactNode }) {
+  return (
+    <section id={id} className={styles.panel}>
+      <span className={styles.panelLabel}>{label}</span>
+      <div className={`${styles.panelBody} ${bodyClass}`}>{children}</div>
+    </section>
+  );
+}
 
 function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -313,17 +323,8 @@ export default function CardDeck() {
       onPointerMove={trackCursor}
       onPointerLeave={() => setCursorOn(false)}
     >
-      <DeckDecor />
-      <div className={styles.bar}>
-        <nav className={styles.nav} aria-label="Sections">
-          <a href="#projects" className={styles.link}>/PROJECTS</a>
-          <a href="#experience" className={styles.link}>/EXPERIENCE</a>
-          <a href="#contact" className={styles.link}>/CONTACT</a>
-        </nav>
-      </div>
-
       <div className={styles.stack}>
-        <section id="about" className={styles.pair}>
+        <Panel id="about" label="About" bodyClass={styles.pair}>
           <div className={`${styles.col} ${styles.lead}`}>
             {card(
               "about",
@@ -361,9 +362,9 @@ export default function CardDeck() {
               </ul>,
             )}
           </div>
-        </section>
+        </Panel>
 
-        <section id="projects" className={styles.projects}>
+        <Panel id="projects" label="Projects" bodyClass={styles.projects}>
           {[0, 2, 4].map((start) => (
             <div key={start} className={styles.pair}>
               {projects.slice(start, start + 2).map((project, i) => {
@@ -387,38 +388,36 @@ export default function CardDeck() {
               })}
             </div>
           ))}
-        </section>
+        </Panel>
 
-        <section id="experience" className={styles.center}>
+        <Panel id="experience" label="Experience" bodyClass={styles.center}>
           {card(
             "chronology",
             "CARD_09",
             ["C9", "EXPERIENCE"],
             <>
-              <p className={styles.sectionLabel}>/WINS</p>
-              <div className={styles.wins}>
+              <p className={styles.sectionLabel}>Wins</p>
+              <div className={styles.rows}>
                 {hackathons.map((hack) => (
-                  <div key={hack.event} className={styles.win}>
-                    <span className={hack.win ? styles.placeWin : styles.place}>{hack.place}</span>
-                    <span className={styles.winText}>
+                  <div key={hack.event} className={styles.row}>
+                    <div className={styles.rowHead}>
+                      <span className={hack.win ? styles.chipSolid : styles.chip}>{hack.place}</span>
                       <span>{hack.event}</span>
-                      <span className={styles.muted}>{hack.project}</span>
-                    </span>
+                    </div>
+                    <p className={`${styles.text} ${styles.muted}`}>{hack.project}</p>
                   </div>
                 ))}
               </div>
-              <p className={styles.sectionLabel}>/ROLES</p>
-              <div className={styles.roles}>
+              <p className={styles.sectionLabel}>Roles</p>
+              <div className={styles.rows}>
                 {roles.map((entry) => (
-                  <div key={entry.role} className={styles.role}>
-                    <div className={styles.roleHead}>
-                      <span>{entry.role}</span>
+                  <div key={entry.role} className={styles.row}>
+                    <div className={styles.rowHead}>
+                      <span className={styles.chipSolid}>{entry.role}</span>
                       {entry.href ? (
-                        <a href={entry.href} className={`${styles.org} ${styles.link}`} target="_blank" rel="noopener noreferrer">
-                          {entry.org} ↗
-                        </a>
+                        <ExternalLink href={entry.href}>{entry.org.slice(1)} ↗</ExternalLink>
                       ) : (
-                        <span className={styles.org}>{entry.org}</span>
+                        <span>{entry.org.slice(1)}</span>
                       )}
                     </div>
                     <p className={`${styles.text} ${styles.muted}`}>{entry.text}</p>
@@ -428,9 +427,9 @@ export default function CardDeck() {
             </>,
             { style: { width: "min(100%, 680px)" } },
           )}
-        </section>
+        </Panel>
 
-        <section id="contact" className={styles.center}>
+        <Panel id="contact" label="Contact" bodyClass={styles.center}>
           {card(
             "contact",
             "CARD_10",
@@ -467,7 +466,7 @@ export default function CardDeck() {
             </>,
             { style: { width: "min(100%, 520px)" } },
           )}
-        </section>
+        </Panel>
       </div>
 
       <div ref={cursorRef} className={styles.cursor} data-visible={cursorOn} aria-hidden="true">
