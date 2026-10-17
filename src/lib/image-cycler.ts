@@ -123,8 +123,8 @@ export class ImageCycler {
     this.grids = this.images.map((img) => this.renderer.sampleImage(img));
   }
 
-  handleResize() {
-    this.renderer.computeGrid();
+  handleResize(width?: number, height?: number) {
+    this.renderer.computeGrid(width, height);
     this.computeAllGrids();
     this.twinkles = [];
     this.scratchGrid = null;

@@ -4,6 +4,7 @@ import {
   JetBrains_Mono,
   Bodoni_Moda,
   Inter,
+  DotGothic16,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import FaviconController from "@/components/FaviconController";
@@ -43,6 +44,12 @@ const blogUi = Inter({
   weight: ["400", "500"],
 });
 
+const deck = DotGothic16({
+  variable: "--font-deck",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://pranavpappu.dev"),
   title: "Pranav Pappu",
@@ -75,7 +82,7 @@ export default function RootLayout({
       lang="en"
       data-theme={DEFAULT_THEME}
       suppressHydrationWarning
-      className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable} ${blogUi.variable}`}
+      className={`${jakarta.variable} ${jetbrainsMono.variable} ${bodoni.variable} ${blogUi.variable} ${deck.variable}`}
     >
       <head>
         <link

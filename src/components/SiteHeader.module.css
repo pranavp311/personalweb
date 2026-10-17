@@ -103,6 +103,61 @@
   }
 }
 
+/* Home page: match the card deck instead of the blog's look. */
+:global(html:has(.deck-page)) .header {
+  border-bottom: 2px solid var(--deck-ink);
+  background: var(--deck-bg);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+:global(html:has(.deck-page)) .link {
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  color: var(--deck-ink);
+  font-family: var(--font-deck), ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+:global(html:has(.deck-page)) .link::before {
+  content: "/";
+}
+
+:global(html:has(.deck-page)) .link:hover {
+  background: var(--deck-ink);
+  color: var(--deck-card);
+}
+
+:global(html:has(.deck-page)) .link:focus-visible {
+  outline-color: var(--deck-ink);
+}
+
+:global(html:has(.deck-page)) .divider {
+  background: var(--deck-ink);
+}
+
+:global(html:has(.deck-page) .theme-toggle) {
+  border-radius: 0;
+  color: var(--deck-ink);
+}
+
+:global(html:has(.deck-page) .theme-toggle:hover) {
+  background: var(--deck-ink);
+  color: var(--deck-card);
+}
+
+@media (max-width: 480px) {
+  :global(html:has(.deck-page)) .header {
+    border: 2px solid var(--deck-ink);
+    border-radius: 0;
+    box-shadow: 6px 6px 0 var(--deck-slab);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .header {
     transition: none;

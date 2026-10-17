@@ -1,0 +1,234 @@
+.visual {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  color: var(--deck-ink);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hover mockups: a small app window that steps in like a dither fade. */
+.mock {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--deck-ink);
+  background: var(--deck-card);
+  box-shadow: 6px 6px 0 var(--deck-slab);
+  font-size: 15px;
+  line-height: 1.45;
+  opacity: 0;
+  transition: opacity 0.32s steps(4);
+  pointer-events: none;
+}
+
+:global(article:hover) .mock,
+:global(article:focus-within) .mock {
+  opacity: 1;
+}
+
+.mockBar {
+  padding: 1px 8px;
+  background: var(--deck-ink);
+  color: var(--deck-card);
+}
+
+.mockBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.compare {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.thumb {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  border: 2px solid var(--deck-ink);
+}
+
+.thumbBar,
+.thumbLine,
+.thumbBlock {
+  display: block;
+  background: var(--deck-ink);
+}
+
+.thumbBar {
+  height: 6px;
+}
+
+.thumbLine {
+  width: 70%;
+  height: 4px;
+  opacity: 0.5;
+}
+
+.thumbBlock {
+  height: 22px;
+  background: radial-gradient(circle, var(--deck-ink) 0.9px, transparent 1.1px) 0 0 / 3px 3px;
+}
+
+.thumbBrand .thumbBar,
+.thumbBrand .thumbBlock {
+  background-color: var(--accent);
+}
+
+.thumbBrand .thumbBlock {
+  background: radial-gradient(circle, var(--accent) 1px, transparent 1.2px) 0 0 / 3px 3px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ghostButton,
+.solidButton {
+  padding: 2px 10px;
+  border: 2px solid var(--deck-ink);
+}
+
+.solidButton {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--deck-card);
+}
+
+.bubble {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 10px;
+  border: 1px solid var(--deck-ink);
+  border-radius: 10px 10px 10px 0;
+}
+
+.flag {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.token {
+  flex: 0 0 36px;
+}
+
+.dim {
+  opacity: 0.6;
+}
+
+.route,
+.row,
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.field {
+  justify-content: flex-start;
+}
+
+.field > :first-child {
+  flex: 0 0 76px;
+}
+
+.local,
+.cloud,
+.ok,
+.bad {
+  padding: 0 6px;
+  font-weight: 400;
+}
+
+.local {
+  background: var(--accent);
+  color: var(--deck-card);
+}
+
+.cloud {
+  border: 1px solid var(--deck-ink);
+}
+
+.ok {
+  align-self: flex-start;
+  background: var(--deck-ink);
+  color: var(--deck-card);
+}
+
+.bad {
+  border: 1px solid var(--deck-ink);
+}
+
+.bar {
+  flex: 1;
+  height: 10px;
+  border: 1px solid var(--deck-ink);
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.mark {
+  background: var(--accent);
+  color: var(--deck-card);
+}
+
+.spark {
+  width: 100%;
+  height: 36px;
+}
+
+.svgTiny {
+  fill: var(--deck-ink);
+  font-family: var(--font-deck), ui-monospace, monospace;
+  font-size: 9px;
+}
+
+.svgSmall {
+  fill: var(--deck-ink);
+  font-family: var(--font-deck), ui-monospace, monospace;
+  font-size: 13px;
+}
+
+.svgText {
+  fill: var(--deck-ink);
+  font-family: var(--font-deck), ui-monospace, monospace;
+  font-size: 14px;
+}
+
+.cloud {
+  background: #d9d1ff;
+}
+
+:global([data-theme="dark"]) .cloud {
+  background: #3b3170;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mock {
+    transition: none;
+  }
+}

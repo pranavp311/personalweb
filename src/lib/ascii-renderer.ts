@@ -33,9 +33,9 @@ export class AsciiRenderer {
     this.charHeight = this.fontSize * this.lineHeight;
   }
 
-  computeGrid() {
-    this._cols = Math.floor(window.innerWidth / (this.charWidth + this.letterSpacing));
-    this._rows = Math.floor(window.innerHeight / this.charHeight);
+  computeGrid(width = window.innerWidth, height = window.innerHeight) {
+    this._cols = Math.floor(width / (this.charWidth + this.letterSpacing));
+    this._rows = Math.floor(height / this.charHeight);
     this.canvas.width = this._cols;
     this.canvas.height = this._rows;
   }
