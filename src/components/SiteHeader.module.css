@@ -103,7 +103,7 @@
   }
 }
 
-/* Home page: match the card deck instead of the blog's look. */
+/* Card deck pages: match the deck styling. */
 :global(html:has(.deck-page)) .header {
   border-bottom: 2px solid var(--deck-ink);
   background: var(--deck-bg);

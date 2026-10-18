@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
+import deck from "@/components/CardDeck.module.css";
+import LearningWidget from "./LearningWidget";
 import styles from "./blog.module.css";
 
 type Note = {
@@ -11,8 +12,7 @@ type Note = {
   category: string;
   tags: string[];
   image: string;
-  imageFit?: "cover" | "contain";
-  imagePosition?: string;
+  accent: [string, string];
   kind: string;
 };
 
@@ -23,7 +23,8 @@ const notes: Note[] = [
       "What changes when a design reference becomes structured evidence instead of a screenshot prompt.",
     category: "Agents",
     tags: ["Design systems", "Tooling"],
-    image: "/images/proj-brushstroke.png",
+    image: "tweakler",
+    accent: ["#94a630", "#cdda81"],
     kind: "Build note",
   },
   {
@@ -32,8 +33,8 @@ const notes: Note[] = [
       "Notes on separating policy performance, captured evidence, and the judgment that connects them.",
     category: "Evaluation",
     tags: ["Coding agents", "Benchmarks"],
-    image: "/images/blog-evals.jpg",
-    imagePosition: "center 66%",
+    image: "evals",
+    accent: ["#7ba630", "#bada81"],
     kind: "Field note",
   },
   {
@@ -42,7 +43,8 @@ const notes: Note[] = [
       "The implementation details that made the jump from a readable transformer to a trainable one.",
     category: "Foundations",
     tags: ["Transformers", "Training"],
-    image: "/images/blog-gpt2-editorial.png",
+    image: "gpt2",
+    accent: ["#1041c6", "#688ef3"],
     kind: "Learning log",
   },
   {
@@ -51,8 +53,8 @@ const notes: Note[] = [
       "A practical model for classifying PII and choosing between on-device and cloud inference.",
     category: "AI systems",
     tags: ["Privacy", "Inference"],
-    image: "/images/blog-cloud-routing-editorial.png",
-    imagePosition: "center",
+    image: "cloud-routing",
+    accent: ["#1043c6", "#688ff3"],
     kind: "Architecture",
   },
   {
@@ -61,8 +63,8 @@ const notes: Note[] = [
       "What early-childhood assessors taught me about structured outputs, trust, and useful automation.",
     category: "Design",
     tags: ["Healthtech", "Human factors"],
-    image: "/images/blog-copilot-editorial.png",
-    imagePosition: "center",
+    image: "copilot",
+    accent: ["#c62810", "#f37b68"],
     kind: "Product note",
   },
   {
@@ -71,8 +73,8 @@ const notes: Note[] = [
       "Exploring the boundary between observing user behavior and automatically changing a product.",
     category: "AI systems",
     tags: ["Analytics", "Adaptation"],
-    image: "/images/blog-adaptive-analytics-editorial.png",
-    imagePosition: "center",
+    image: "adaptive-analytics",
+    accent: ["#bd2f19", "#ec7f6f"],
     kind: "Research note",
   },
 ];
@@ -112,111 +114,125 @@ export default function BlogDirectory() {
   }, [activeCategory, query]);
 
   return (
-    <main className={styles.blogPage}>
-      <section className={styles.hero} aria-labelledby="blog-title">
-        <p className={styles.eyebrow}>Pranav&apos;s learning log</p>
-        <h1 id="blog-title" className={styles.heroTitle}>
-          Notes from building, breaking, and{" "}
-          <span>learning.</span>
-        </h1>
-        <p className={styles.heroCopy}>
-          AI systems, developer tools, and the experiments between them.
-        </p>
-      </section>
-
-      <section className={styles.directory} aria-label="Learning notes">
-        <div className={styles.filterRail}>
-          <div className={styles.filterInner}>
-            <label className={styles.searchBox}>
-              <span className={styles.srOnly}>Search learning notes</span>
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <circle cx="11" cy="11" r="6.75" />
-                <path d="m16 16 4 4" />
-              </svg>
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search…"
-              />
-            </label>
-
-            <div className={styles.categoryList} aria-label="Filter by category">
-              {categories.map((category) => {
-                const count =
-                  category === "All"
-                    ? notes.length
-                    : notes.filter((note) => note.category === category).length;
-
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    className={styles.categoryButton}
-                    data-active={activeCategory === category}
-                    aria-pressed={activeCategory === category}
-                    onClick={() => setActiveCategory(category)}
-                  >
-                    <span>{category}</span>
-                    <span className={styles.categoryCount}>{count}</span>
-                  </button>
-                );
-              })}
+    <main className={`deck-page ${styles.blogPage}`}>
+      <div className={styles.stack}>
+        <section className={deck.panel} aria-labelledby="blog-title">
+          <span className={deck.panelLabel}>Blog</span>
+          <div className={`${deck.panelBody} ${styles.heroBody}`}>
+            <div className={`${deck.card} ${styles.titleCard}`}>
+              <div className={deck.head}>
+                <span>B0</span>
+                <span>Pranav&apos;s learning log</span>
+                <span />
+              </div>
+              <h1 id="blog-title" className={styles.heroTitle}>
+                What I&apos;m learning.
+              </h1>
+              <p className={styles.heroCopy}>
+                Notes from the things I build, and what I figure out along the way.
+              </p>
             </div>
+            <LearningWidget />
           </div>
-        </div>
+        </section>
 
-        {visibleNotes.length > 0 ? (
-          <div className={styles.noteGrid} aria-live="polite">
-            {visibleNotes.map((note, index) => (
-              <article className={styles.noteCard} key={note.title}>
-                <div className={styles.imageStage}>
-                  <Image
-                    src={note.image}
-                    alt=""
-                    fill
-                    loading={index < 3 ? "eager" : "lazy"}
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
-                    className={styles.noteImage}
-                    style={{
-                      objectFit: note.imageFit ?? "cover",
-                      objectPosition: note.imagePosition ?? "center",
-                    }}
-                  />
-                  <span className={styles.draftBadge}>Draft</span>
-                </div>
+        <section className={deck.panel} aria-label="Learning notes">
+          <span className={deck.panelLabel}>Notes</span>
+          <div className={`${deck.panelBody} ${styles.notesBody}`}>
+            <div className={styles.filters}>
+              <label className={styles.searchBox}>
+                <span className={styles.srOnly}>Search learning notes</span>
+                <span aria-hidden="true">/</span>
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="search"
+                />
+              </label>
 
-                <div className={styles.cardCopy}>
-                  <div>
-                    <p className={styles.noteKind}>{note.kind}</p>
-                    <h2>{note.title}</h2>
+              <div className={styles.categoryList} aria-label="Filter by category">
+                {categories.map((category) => {
+                  const count =
+                    category === "All"
+                      ? notes.length
+                      : notes.filter((note) => note.category === category).length;
+
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      className={styles.categoryButton}
+                      data-active={activeCategory === category}
+                      aria-pressed={activeCategory === category}
+                      onClick={() => setActiveCategory(category)}
+                    >
+                      {category} {count}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {visibleNotes.length > 0 ? (
+              <div className={styles.noteGrid} aria-live="polite">
+                {visibleNotes.map((note) => (
+                  <article
+                    className={`${deck.card} ${styles.noteCard}`}
+                    key={note.title}
+                    style={{ "--accent-light": note.accent[0], "--accent-dark": note.accent[1] } as CSSProperties}
+                  >
+                    <div className={deck.head}>
+                      <span>N{notes.indexOf(note) + 1}</span>
+                      <span>{note.kind.toUpperCase()}</span>
+                      <span />
+                    </div>
+                    <div className={`${deck.imageFrame} ${styles.imageStage}`}>
+                      <div
+                        className={`${deck.image} ${styles.accentLayer}`}
+                        style={
+                          {
+                            "--mask": `url(/images/blog/${note.image}-accent.png)`,
+                            "--mask-dark": `url(/images/blog/${note.image}-accent-dark.png)`,
+                          } as CSSProperties
+                        }
+                      />
+                      <div
+                        className={deck.image}
+                        style={
+                          {
+                            "--mask": `url(/images/blog/${note.image}.png)`,
+                            "--mask-dark": `url(/images/blog/${note.image}-dark.png)`,
+                          } as CSSProperties
+                        }
+                      />
+                    </div>
+                    <h2 className={styles.noteTitle}>{note.title}</h2>
                     <p className={styles.summary}>{note.summary}</p>
-                  </div>
-
-                  <div className={styles.cardMeta}>
-                    <ul aria-label="Topics">
-                      <li>{note.category}</li>
+                    <ul className={styles.tags} aria-label="Topics">
+                      <li className={deck.chipSolid}>{note.category}</li>
                       {note.tags.map((tag) => (
-                        <li key={tag}>{tag}</li>
+                        <li key={tag} className={deck.chip}>
+                          {tag}
+                        </li>
                       ))}
                     </ul>
-                    <span>Coming soon</span>
-                  </div>
-                </div>
-              </article>
-            ))}
+                    <div className={deck.status}>/coming soon</div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyState} aria-live="polite">
+                No notes match that search yet.
+              </div>
+            )}
           </div>
-        ) : (
-          <div className={styles.emptyState} aria-live="polite">
-            No notes match that search yet.
-          </div>
-        )}
-      </section>
+        </section>
 
-      <footer className={styles.blogFooter}>
-        <p>Learning in public, one useful note at a time.</p>
-        <Link href="/">Back to portfolio ↗</Link>
-      </footer>
+        <footer className={styles.blogFooter}>
+          <Link href="/">/back to portfolio ↗</Link>
+        </footer>
+      </div>
     </main>
   );
 }

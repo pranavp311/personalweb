@@ -46,7 +46,7 @@ body {
   }
 }
 
-/* Home page card-deck palette. Scoped with :has so the blog keeps its own look. */
+/* Card-deck palette for the home and blog pages, scoped with :has. */
 html:has(.deck-page) {
   --deck-bg: #b7cfcf;
   --deck-card: #eef8f7;
