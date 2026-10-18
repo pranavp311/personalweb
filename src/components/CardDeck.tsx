@@ -45,9 +45,9 @@ const projects = [
   },
   {
     id: "gpt2",
-    name: "GPT-2",
+    name: "LOCAL SMALL LM",
     accent: ["#2f5bd3", "#8fb0ff"],
-    text: "Recreated GPT-2 124M from scratch: tokenizer, transformer blocks, optimizer, mixed precision, and FineWeb Edu evaluation; trained on 10B tokens.",
+    text: "Built a custom GPT-2 124M variant from scratch in PyTorch on local hardware, including the tokenizer, transformer blocks, optimizer, mixed-precision training, and FineWeb-Edu evaluation. Trained on 10B tokens.",
     status: "/github ↗",
     href: "https://github.com/pranavp311/learning_nn/tree/main/NanoGPT_GPT2_124M",
   },
