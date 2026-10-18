@@ -44,8 +44,8 @@ export class AsciiRenderer {
     const { _cols: cols, _rows: rows } = this;
     const grid = new Float32Array(cols * rows);
 
-    // Cover-fit: compute source crop to match grid aspect ratio
-    const gridAspect = (cols * this.charWidth) / (rows * this.charHeight);
+    // Cover-fit: compute source crop to match grid aspect ratio (each column renders with letter spacing)
+    const gridAspect = (cols * (this.charWidth + this.letterSpacing)) / (rows * this.charHeight);
     const imgAspect = img.naturalWidth / img.naturalHeight;
 
     let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;

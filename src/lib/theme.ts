@@ -54,7 +54,7 @@ export const themeCss = `:root,[data-theme="${DEFAULT_THEME}"]{${declarations(th
 export const faviconColors = {
   dark: {
     background: "#000000",
-    foreground: darkTheme["--color-accent"],
+    foreground: "#000000",
   },
   light: {
     background: "#ffffff",

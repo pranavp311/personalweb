@@ -1,3 +1,4 @@
+import Draggable from "./Draggable";
 import styles from "./DeskStrip.module.css";
 
 const USER = "pranavp311";
@@ -62,8 +63,8 @@ export default async function GithubHeatmap({ className }: { className: string }
   const months = monthLabels(calendar.weeks);
   const columns = { gridTemplateColumns: `28px repeat(${calendar.weeks.length}, minmax(0, 1fr))` };
   return (
-    <div className={className}>
-      <div className={styles.bar}>
+    <Draggable className={className}>
+      <div className={styles.bar} data-drag>
         <span>Contributions · {calendar.year}</span>
         <a href={`https://github.com/${USER}`} className={styles.barLink} target="_blank" rel="noopener noreferrer">
           github ↗
@@ -104,6 +105,6 @@ export default async function GithubHeatmap({ className }: { className: string }
           <span>More</span>
         </div>
       </div>
-    </div>
+    </Draggable>
   );
 }

@@ -1,0 +1,28 @@
+:global(.deck-page[data-cursor="on"]),
+:global(.deck-page[data-cursor="on"] *) {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  display: none;
+  align-items: center;
+  color: var(--deck-ink);
+  font-family: var(--font-deck), ui-monospace, monospace;
+  pointer-events: none;
+}
+
+.cursor[data-visible="true"] {
+  display: flex;
+}
+
+.cursorTag {
+  margin-left: 6px;
+  padding: 0 6px;
+  background: var(--deck-ink);
+  color: var(--deck-card);
+  font-size: 15px;
+}

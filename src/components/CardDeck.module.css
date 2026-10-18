@@ -8,11 +8,6 @@
   line-height: 1.5;
 }
 
-.deck[data-cursor="on"],
-.deck[data-cursor="on"] * {
-  cursor: none;
-}
-
 .link {
   color: inherit;
   text-decoration: none;
@@ -155,6 +150,55 @@
 
 .pair > .card {
   align-self: flex-start;
+}
+
+/* Hover picks a project card up off the deck: it lifts and its plate's misregistration shadow widens. */
+.project,
+.project [data-visual] {
+  transition:
+    translate 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+.project:hover,
+.project:has(:focus-visible) {
+  translate: -4px -4px;
+  box-shadow: 18px 18px 0 var(--deck-slab);
+}
+
+/* The lift moves the card up-left; this fills the strip it leaves so a pointer resting on the
+   right or bottom edge stays over the card instead of toggling hover on and off. */
+.project:hover::after {
+  content: "";
+  position: absolute;
+  inset: 0 -6px -6px 0;
+  z-index: -1;
+}
+
+.project:hover [data-visual],
+.project:has(:focus-visible) [data-visual] {
+  box-shadow: 6px 6px 0 var(--accent);
+}
+
+/* A project's status link stretches over the whole card, so clicking anywhere opens it.
+   The title bar (drag handle) and links in the text sit above it. */
+.project .status .link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.project .head,
+.project .points .link {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project,
+  .project [data-visual] {
+    transition: none;
+  }
 }
 
 /* Print panels, after the reference: label chip, left rule, fine dot field with halftone blobs. */
@@ -343,29 +387,6 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-}
-
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2147483647;
-  display: none;
-  align-items: center;
-  color: var(--deck-ink);
-  pointer-events: none;
-}
-
-.cursor[data-visible="true"] {
-  display: flex;
-}
-
-.cursorTag {
-  margin-left: 6px;
-  padding: 0 6px;
-  background: var(--deck-ink);
-  color: var(--deck-card);
-  font-size: 15px;
 }
 
 @media (max-width: 720px) {

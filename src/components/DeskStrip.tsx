@@ -7,7 +7,7 @@ export default function DeskStrip() {
     <div className={styles.strip}>
       <section className={deck.panel} aria-label="Activity">
         <span className={deck.panelLabel}>Activity</span>
-        <div className={deck.panelBody}>
+        <div className={deck.panelBody} data-drag-area>
           <GithubHeatmap className={styles.window} />
         </div>
       </section>

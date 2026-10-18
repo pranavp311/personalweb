@@ -1,53 +1,56 @@
 "use client";
 
 import {
-  useEffect,
   useRef,
   useState,
   type CSSProperties,
   type PointerEvent,
   type ReactNode,
 } from "react";
+import { beginDrag, dragOffset, type Drag, type Offset } from "@/lib/drag";
 import ProjectVisual from "./ProjectVisuals";
 import styles from "./CardDeck.module.css";
 
-type Offset = [number, number];
-
 const HOVER_LAYER = 100000;
 
-type Drag = {
-  id: string;
-  startX: number;
-  startY: number;
-  origin: Offset;
-};
+type CardDrag = Drag & { id: string };
 
 const projects = [
+  {
+    id: "assessmate",
+    name: "ASSESSMATE",
+    accent: ["#b03a68", "#f29ac0"],
+    points: [
+      "AI case-notes copilot for structured documentation.",
+      "Piloted with two assessors to measure documentation-time reduction.",
+      "Built for PDPA-sensitive child-development data.",
+    ],
+    status: "/site ↗",
+    href: "https://assessmate.tech/",
+  },
   {
     id: "tweakler",
     name: "TWEAKLER",
     accent: ["#b45309", "#f0a35e"],
-    text: (
+    points: [
+      "Agent-driven system that turns permissioned website references into distinct, brand-oriented sites.",
+      "Deterministic cloning, adaptation, validation, and human approval gates.",
       <>
-        An agent-driven system that turns permissioned website references into distinct, brand-oriented sites
-        through deterministic cloning, adaptation, validation, and human approval gates. Already being used and
-        tested by a few studios, including <ExternalLink href="https://brightseastudio.com/">Brightsea Studio</ExternalLink>.
-      </>
-    ),
+        Already being used and tested by a few studios, including{" "}
+        <ExternalLink href="https://brightseastudio.com/">Brightsea Studio</ExternalLink>.
+      </>,
+    ],
     status: "/private",
-  },
-  {
-    id: "evoserve",
-    name: "EVOSERVE",
-    accent: ["#1f7a4d", "#6fd39b"],
-    text: "A harness-quality and evaluation control plane for coding-agent systems that compares policy candidates, independently verifies captured-run evidence, and produces auditable quality and regression reports.",
-    status: "/wip",
   },
   {
     id: "gpt2",
     name: "LOCAL SMALL LM",
     accent: ["#2f5bd3", "#8fb0ff"],
-    text: "Built a custom GPT-2 124M variant from scratch in PyTorch on local hardware, including the tokenizer, transformer blocks, optimizer, mixed-precision training, and FineWeb-Edu evaluation. Trained on 10B tokens.",
+    points: [
+      "Built a custom GPT-2 124M variant from scratch in PyTorch on local hardware.",
+      "Tokenizer, transformer blocks, optimizer, mixed-precision training, and FineWeb-Edu evaluation.",
+      "Trained on 10B tokens.",
+    ],
     status: "/github ↗",
     href: "https://github.com/pranavp311/learning_nn/tree/main/NanoGPT_GPT2_124M",
   },
@@ -55,23 +58,33 @@ const projects = [
     id: "secureclaw",
     name: "SECURECLAW",
     accent: ["#b45309", "#f0a35e"],
-    text: "A privacy router for 12 PII types with three routing modes, on-device/cloud inference, and a 30-case benchmark.",
+    points: [
+      "Privacy router for 12 PII types with three routing modes.",
+      "Routes between on-device and cloud inference.",
+      "Tested on a 30-case benchmark.",
+    ],
     status: "/github ↗",
     href: "https://github.com/pranavp311/secureclaw",
   },
   {
-    id: "assessmate",
-    name: "ASSESSMATE",
-    accent: ["#b03a68", "#f29ac0"],
-    text: "An AI case-notes copilot for structured documentation, piloted with two assessors to measure documentation-time reduction on PDPA-sensitive child-development data.",
-    status: "/site ↗",
-    href: "https://assessmate.tech/",
+    id: "evoserve",
+    name: "EVOSERVE",
+    accent: ["#1f7a4d", "#6fd39b"],
+    points: [
+      "Harness-quality and evaluation control plane for coding-agent systems.",
+      "Compares policy candidates and independently verifies captured-run evidence.",
+      "Produces auditable quality and regression reports.",
+    ],
+    status: "/wip",
   },
   {
     id: "moltlytics",
     name: "MOLTLYTICS",
     accent: ["#157a86", "#6fd0dc"],
-    text: "Analytics platform rivaling PostHog that lets website owners automatically adapt their sites based on real customer behavior data.",
+    points: [
+      "Analytics platform rivaling PostHog.",
+      "Lets website owners automatically adapt their sites based on real customer behavior data.",
+    ],
     status: "/private",
   },
 ];
@@ -155,15 +168,6 @@ const hackathons = [
   },
 ];
 
-// The custom cursor hides the hand pointer, so its tag says what a click will do.
-function labelFor(target: Element) {
-  const link = target.closest("a");
-  if (link) return link.getAttribute("href")?.startsWith("#") ? "GO ↓" : "OPEN ↗";
-  const code = target.closest<HTMLElement>("[data-code]")?.dataset.code ?? "";
-  if (code && target.closest("[data-drag]")) return `${code} · DRAG`;
-  return code;
-}
-
 // 11x11 outline icons drawn as pixel grids ("#" = ink), matching the 1-2px card strokes.
 const ICON_ART = {
   mail: ["", "###########", "##.......##", "#.#.....#.#", "#..#...#..#", "#...###...#", "#.........#", "###########"],
@@ -201,7 +205,9 @@ function Panel({ id, label, bodyClass, children }: { id: string; label: string; 
   return (
     <section id={id} className={styles.panel}>
       <span className={styles.panelLabel}>{label}</span>
-      <div className={`${styles.panelBody} ${bodyClass}`}>{children}</div>
+      <div className={`${styles.panelBody} ${bodyClass}`} data-drag-area>
+        {children}
+      </div>
     </section>
   );
 }
@@ -240,45 +246,10 @@ function DitherImage({ src, darkSrc, label, ratio }: { src: string; darkSrc: str
 export default function CardDeck() {
   const [offsets, setOffsets] = useState<Record<string, Offset>>({});
   const [layers, setLayers] = useState<Record<string, number>>({});
-  const [cursorOn, setCursorOn] = useState(false);
-  const [cursorLabel, setCursorLabel] = useState("");
   const [hovered, setHovered] = useState("");
   const topLayer = useRef(1);
   const topCard = useRef("");
-  const drag = useRef<Drag | null>(null);
-  const deckRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const lastPoint = useRef<[number, number] | null>(null);
-  const finePointer = useRef(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
-    finePointer.current = query.matches;
-
-    function handleChange(event: MediaQueryListEvent) {
-      finePointer.current = event.matches;
-      if (!event.matches) setCursorOn(false);
-    }
-
-    // Scrolling moves the page under a still pointer, so re-read what it is over.
-    function handleScroll() {
-      const point = lastPoint.current;
-      if (!point || !deckRef.current) return;
-      const target = document.elementFromPoint(point[0], point[1]);
-      if (!target || !deckRef.current.contains(target)) {
-        setCursorOn(false);
-        return;
-      }
-      setCursorLabel(labelFor(target));
-    }
-
-    query.addEventListener("change", handleChange);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      query.removeEventListener("change", handleChange);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const drag = useRef<CardDrag | null>(null);
 
   function raise(id: string) {
     if (topCard.current === id) return;
@@ -291,37 +262,19 @@ export default function CardDeck() {
     if (event.pointerType !== "mouse" || event.button !== 0) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
-    drag.current = {
-      id,
-      startX: event.clientX,
-      startY: event.clientY,
-      origin: offsets[id] ?? [0, 0],
-    };
+    const origin = offsets[id] ?? [0, 0];
+    drag.current = { id, ...beginDrag(event.currentTarget.parentElement!, event.clientX, event.clientY, origin) };
   }
 
   function moveDrag(event: PointerEvent<HTMLDivElement>) {
     const current = drag.current;
     if (!current) return;
-    const next: Offset = [
-      current.origin[0] + event.clientX - current.startX,
-      current.origin[1] + event.clientY - current.startY,
-    ];
+    const next = dragOffset(current, event.clientX, event.clientY);
     setOffsets((all) => ({ ...all, [current.id]: next }));
   }
 
   function endDrag() {
     drag.current = null;
-  }
-
-  function trackCursor(event: PointerEvent<HTMLElement>) {
-    if (!finePointer.current || event.pointerType !== "mouse") return;
-    lastPoint.current = [event.clientX, event.clientY];
-    if (!cursorOn) setCursorOn(true);
-    if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate(${event.clientX - 10}px, ${event.clientY - 10}px)`;
-    }
-    const label = labelFor(event.target as Element);
-    if (label !== cursorLabel) setCursorLabel(label);
   }
 
   function card(
@@ -369,13 +322,7 @@ export default function CardDeck() {
   }
 
   return (
-    <div
-      ref={deckRef}
-      className={styles.deck}
-      data-cursor={cursorOn ? "on" : "off"}
-      onPointerMove={trackCursor}
-      onPointerLeave={() => setCursorOn(false)}
-    >
+    <div className={styles.deck}>
       <div className={styles.stack}>
         <Panel id="about" label="About" bodyClass={styles.pair}>
           <div className={`${styles.col} ${styles.lead}`}>
@@ -393,11 +340,17 @@ export default function CardDeck() {
                 <p className={styles.text}>
                   Year 2 CS student at NUS. I build AI-powered tools and ship fast.
                 </p>
-                <p className={styles.text}>
-                  Currently building Tweakler, working as a Research Assistant under Prof. Ooi Wei Tsang on dynamic
-                  3D Gaussian Splatting benchmarking, and serving as a CCSGP Fellow building AssessMate for early
-                  childhood intervention assessors.
-                </p>
+                <p className={styles.text}>Currently:</p>
+                <Points
+                  items={[
+                    <>
+                      Building <ExternalLink href="https://assessmate.tech/">AssessMate</ExternalLink> for early
+                      childhood intervention assessors as a CCSGP Fellow.
+                    </>,
+                    "Building Tweakler.",
+                    "Research Assistant under Prof. Ooi Wei Tsang on dynamic 3D Gaussian Splatting benchmarking.",
+                  ]}
+                />
               </>,
             )}
           </div>
@@ -428,13 +381,13 @@ export default function CardDeck() {
                   [`C${index}`, project.name],
                   <>
                     <ProjectVisual id={project.id} />
-                    <p className={styles.text}>{project.text}</p>
+                    <Points items={project.points} />
                     <div className={styles.status}>
                       {project.href ? <ExternalLink href={project.href}>{project.status}</ExternalLink> : project.status}
                     </div>
                   </>,
                   {
-                    className: i === 0 ? styles.lead : styles.follow,
+                    className: `${i === 0 ? styles.lead : styles.follow} ${styles.project}`,
                     style: { "--accent-light": project.accent[0], "--accent-dark": project.accent[1] } as CSSProperties,
                   },
                 );
@@ -527,13 +480,6 @@ export default function CardDeck() {
             { style: { width: "min(100%, 520px)" } },
           )}
         </Panel>
-      </div>
-
-      <div ref={cursorRef} className={styles.cursor} data-visible={cursorOn} aria-hidden="true">
-        <svg width="21" height="21" viewBox="0 0 7 7" shapeRendering="crispEdges">
-          <path d="M3 0h1v3H3zM3 4h1v3H3zM0 3h3v1H0zM4 3h3v1H4z" fill="currentColor" />
-        </svg>
-        {cursorLabel && <span className={styles.cursorTag}>{cursorLabel}</span>}
       </div>
     </div>
   );

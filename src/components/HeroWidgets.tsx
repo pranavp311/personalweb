@@ -1,34 +1,46 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import Draggable from "./Draggable";
 import styles from "./AsciiHero.module.css";
 
 export function Widget({ title, className, children }: { title: string; className: string; children: ReactNode }) {
   return (
-    <div className={className} aria-hidden="true">
-      <div className={styles.widgetBar}>{title}</div>
+    <Draggable className={className} aria-hidden="true">
+      <div className={styles.widgetBar} data-drag>
+        {title}
+      </div>
       <div className={styles.widgetBody}>{children}</div>
-    </div>
+    </Draggable>
   );
 }
 
-const dateFormat = new Intl.DateTimeFormat("en-SG", {
-  timeZone: "Asia/Singapore",
-  weekday: "long",
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
+function clockFormats(locale: string, timeZone: string) {
+  return {
+    date: new Intl.DateTimeFormat(locale, {
+      timeZone,
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
+    time: new Intl.DateTimeFormat(locale, {
+      timeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+      timeZoneName: "short",
+    }),
+  };
+}
 
-const timeFormat = new Intl.DateTimeFormat("en-SG", {
-  timeZone: "Asia/Singapore",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hour12: false,
-});
+const clocks = {
+  singapore: { title: "Singapore", ...clockFormats("en-SG", "Asia/Singapore") },
+  sanFrancisco: { title: "San Francisco", ...clockFormats("en-US", "America/Los_Angeles") },
+};
 
-export function ClockWidget({ className }: { className: string }) {
+export function ClockWidget({ city, className }: { city: keyof typeof clocks; className: string }) {
   const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -42,9 +54,9 @@ export function ClockWidget({ className }: { className: string }) {
   }, []);
 
   return (
-    <Widget title="Singapore" className={className}>
-      <span>{now ? dateFormat.format(now) : "--"}</span>
-      <span>{now ? `${timeFormat.format(now)} SGT` : "--:--:--"}</span>
+    <Widget title={clocks[city].title} className={className}>
+      <span>{now ? clocks[city].date.format(now) : "--"}</span>
+      <span>{now ? clocks[city].time.format(now) : "--:--:--"}</span>
     </Widget>
   );
 }

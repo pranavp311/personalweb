@@ -142,8 +142,14 @@
   left: clamp(24px, 3vw, 48px);
 }
 
-.glider {
+.sfClock {
   top: calc(clamp(28px, 5vh, 56px) + 112px);
+  right: clamp(24px, 3vw, 48px);
+  min-width: 260px;
+}
+
+.glider {
+  bottom: 25%;
   right: clamp(24px, 3vw, 48px);
 }
 

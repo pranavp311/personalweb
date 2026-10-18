@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { AsciiRenderer } from "@/lib/ascii-renderer";
 import { ImageCycler } from "@/lib/image-cycler";
 import DotField from "./DotField";
+import Draggable from "./Draggable";
 import { ClockWidget, GliderWidget } from "./HeroWidgets";
 import { HaliteWidget } from "./HaliteWidget";
 import styles from "./AsciiHero.module.css";
@@ -100,13 +101,14 @@ export default function AsciiHero() {
     };
   }, []);
 
+  // The drag inset matches .frame, so dragged cards stay inside the frame line.
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} data-drag-area="12">
       <DotField />
       <div className={styles.frame} aria-hidden="true" />
 
-      <div className={styles.window}>
-        <div className={styles.titleBar}>
+      <Draggable className={styles.window}>
+        <div className={styles.titleBar} data-drag>
           <span>C0</span>
           <span>PRANAV_PAPPU</span>
           <span />
@@ -114,6 +116,7 @@ export default function AsciiHero() {
         <div
           ref={screenRef}
           className={styles.screen}
+          data-cursor-label="NEXT"
           onClick={() => cyclerRef.current?.skipToNext()}
         >
           <pre
@@ -134,9 +137,10 @@ export default function AsciiHero() {
             /scroll ↓
           </a>
         </div>
-      </div>
+      </Draggable>
 
-      <ClockWidget className={`${styles.widget} ${styles.clock}`} />
+      <ClockWidget city="singapore" className={`${styles.widget} ${styles.clock}`} />
+      <ClockWidget city="sanFrancisco" className={`${styles.widget} ${styles.sfClock}`} />
       <HaliteWidget className={`${styles.widget} ${styles.halitePos}`} />
       <GliderWidget className={`${styles.widget} ${styles.glider}`} />
     </section>

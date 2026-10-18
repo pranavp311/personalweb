@@ -71,6 +71,11 @@ html:has(.deck-page) {
   background: var(--deck-bg);
 }
 
+/* Drag handles; :where keeps this below the deck's custom-cursor rule. */
+:where(.deck-page) [data-drag] {
+  cursor: grab;
+}
+
 html[data-theme="dark"]:has(.deck-page) {
   --deck-bg: #10120d;
   --deck-card: #1a1d16;

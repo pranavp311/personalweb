@@ -25,14 +25,15 @@
   box-shadow: 6px 6px 0 var(--deck-slab);
   font-size: 15px;
   line-height: 1.45;
-  opacity: 0;
-  transition: opacity 0.32s steps(4);
+  transform: translateY(calc(100% + 24px));
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
 }
 
+/* The mockup slides up from below the plate, solid the whole way, instead of fading over it. */
 :global(article:hover) .mock,
 :global(article:focus-within) .mock {
-  opacity: 1;
+  transform: none;
 }
 
 .mockBar {
