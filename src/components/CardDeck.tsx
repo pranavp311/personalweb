@@ -64,7 +64,8 @@ const projects = [
     name: "ASSESSMATE",
     accent: ["#b03a68", "#f29ac0"],
     text: "An AI case-notes copilot for structured documentation, piloted with two assessors to measure documentation-time reduction on PDPA-sensitive child-development data.",
-    status: "/wip",
+    status: "/site ↗",
+    href: "https://assessmate.tech/",
   },
   {
     id: "moltlytics",
@@ -88,6 +89,7 @@ const roles = [
   {
     role: "Co-founder & CTO",
     org: "/AssessMate",
+    href: "https://assessmate.tech/",
     points: [
       "Building an AI case-notes copilot for structured documentation with early childhood intervention assessors.",
       <>
