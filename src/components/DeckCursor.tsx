@@ -9,6 +9,7 @@ function labelFor(target: Element) {
   if (link) return link.getAttribute("href")?.startsWith("#") ? "GO ↓" : "OPEN ↗";
   const hint = target.closest<HTMLElement>("[data-cursor-label]")?.dataset.cursorLabel;
   const code = target.closest<HTMLElement>("[data-code]")?.dataset.code ?? "";
+  if (target.closest("button")) return hint ?? "";
   if (target.closest("[data-drag]")) return code ? `${code} · DRAG` : "DRAG";
   return hint ?? code;
 }

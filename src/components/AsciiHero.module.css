@@ -35,14 +35,67 @@
 }
 
 .titleBar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   gap: 12px;
   padding: 4px 12px;
   background: var(--deck-ink);
   color: var(--deck-card);
   font-size: 15px;
   user-select: none;
+}
+
+.menuBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* .titleBar outranks the site header's deck rules for .theme-toggle. */
+.titleBar .menu a,
+.titleBar .menu :global(.theme-toggle) {
+  display: flex;
+  height: 24px;
+  padding: 0 8px;
+  align-items: center;
+  border: 1px solid var(--deck-card);
+  border-radius: 0;
+  background: var(--deck-card);
+  color: var(--deck-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.menu a::before {
+  content: "/";
+}
+
+.menu :global(.theme-toggle) {
+  width: auto;
+}
+
+.menu :global(.theme-toggle__icon) {
+  width: 16px;
+  height: 16px;
+}
+
+.titleBar .menu a:hover,
+.titleBar .menu :global(.theme-toggle:hover) {
+  background: var(--deck-ink);
+  color: var(--deck-card);
+}
+
+.titleBar .menu a:focus-visible,
+.titleBar .menu :global(.theme-toggle:focus-visible) {
+  outline: 2px solid var(--deck-card);
+  outline-offset: -2px;
 }
 
 .screen {
@@ -193,5 +246,16 @@
 @media (max-width: 720px) {
   .window {
     height: min(82vh, 720px);
+  }
+}
+
+/* Narrow phones can't fit the menu and the title; the footer still shows the name. */
+@media (max-width: 374px) {
+  .titleBar {
+    grid-template-columns: 1fr;
+  }
+
+  .titleBar > :not(.menuBar) {
+    display: none;
   }
 }

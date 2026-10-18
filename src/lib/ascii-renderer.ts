@@ -40,7 +40,7 @@ export class AsciiRenderer {
     this.canvas.height = this._rows;
   }
 
-  sampleImage(img: HTMLImageElement): Float32Array {
+  sampleImage(img: HTMLImageElement, focusY = 0.5): Float32Array {
     const { _cols: cols, _rows: rows } = this;
     const grid = new Float32Array(cols * rows);
 
@@ -57,7 +57,7 @@ export class AsciiRenderer {
     } else {
       // Image is taller — crop top/bottom
       sh = img.naturalWidth / gridAspect;
-      sy = (img.naturalHeight - sh) / 2;
+      sy = (img.naturalHeight - sh) * focusY;
     }
 
     this.ctx.clearRect(0, 0, cols, rows);

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { AsciiRenderer } from "@/lib/ascii-renderer";
 import { ImageCycler } from "@/lib/image-cycler";
@@ -7,13 +8,15 @@ import DotField from "./DotField";
 import Draggable from "./Draggable";
 import { ClockWidget, GliderWidget } from "./HeroWidgets";
 import { HaliteWidget } from "./HaliteWidget";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./AsciiHero.module.css";
 
-const IMAGE_PATHS = [
-  "/images/hero-1.jpg",
-  "/images/hero-2.webp",
-  "/images/hero-3.jpg",
-  "/images/hero-4.jpg",
+// focusY picks which part survives the crop on wide screens: 0 keeps the top, 0.5 (default) the middle.
+const IMAGES = [
+  { src: "/images/hero-1.jpg", focusY: 0 },
+  { src: "/images/hero-2.webp" },
+  { src: "/images/hero-3.jpg" },
+  { src: "/images/hero-4.jpg" },
 ];
 
 const FONT_SIZE = 6;
@@ -57,7 +60,7 @@ export default function AsciiHero() {
       const { width, height } = screenRef.current.getBoundingClientRect();
       renderer.computeGrid(width, height);
 
-      const cycler = new ImageCycler(IMAGE_PATHS, renderer, handleFrame);
+      const cycler = new ImageCycler(IMAGES, renderer, handleFrame);
       const isLight = document.documentElement.dataset.theme === "light";
       cycler.setInverted(isLight);
       cyclerRef.current = cycler;
@@ -109,7 +112,19 @@ export default function AsciiHero() {
 
       <Draggable className={styles.window}>
         <div className={styles.titleBar} data-drag>
-          <span>C0</span>
+          {/* Menu bar for the hero; the site header stays hidden until the hero scrolls away. */}
+          <div className={styles.menuBar}>
+            <span>C0</span>
+            <nav className={styles.menu} aria-label="Hero menu">
+              <Link href="/blog">Blog</Link>
+              <a href="/pranav-pappu-resume.pdf" target="_blank" rel="noopener noreferrer">
+                Resume
+              </a>
+              <span data-cursor-label="THEME">
+                <ThemeToggle />
+              </span>
+            </nav>
+          </div>
           <span>PRANAV_PAPPU</span>
           <span />
         </div>

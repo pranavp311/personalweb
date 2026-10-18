@@ -11,7 +11,7 @@ export default function Draggable({ style, children, ...rest }: ComponentProps<"
   function start(event: PointerEvent<HTMLDivElement>) {
     const target = event.target as Element;
     if (event.pointerType !== "mouse" || event.button !== 0) return;
-    if (!target.closest("[data-drag]") || target.closest("a")) return;
+    if (!target.closest("[data-drag]") || target.closest("a, button")) return;
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
     drag.current = beginDrag(event.currentTarget, event.clientX, event.clientY, offset);

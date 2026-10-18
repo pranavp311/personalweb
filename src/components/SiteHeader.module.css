@@ -103,7 +103,15 @@
   }
 }
 
-/* Card deck pages: match the deck styling. */
+/* Card deck pages: match the deck styling. Off the home page the bar sits in flow, so it covers nothing. */
+:global(html:has(.deck-page)) {
+  scroll-padding-top: 56px;
+}
+
+:global(html:has(.deck-page)) .header:not([data-home="true"]) {
+  position: sticky;
+}
+
 :global(html:has(.deck-page)) .header {
   border-bottom: 2px solid var(--deck-ink);
   background: var(--deck-bg);
@@ -151,6 +159,10 @@
 }
 
 @media (max-width: 480px) {
+  :global(html:has(.deck-page)) .header:not([data-home="true"]) {
+    position: fixed;
+  }
+
   :global(html:has(.deck-page)) .header {
     border: 2px solid var(--deck-ink);
     border-radius: 0;

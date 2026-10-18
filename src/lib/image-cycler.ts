@@ -11,6 +11,8 @@ interface Twinkle {
   peakBrightness: number;
 }
 
+export type HeroImage = { src: string; focusY?: number };
+
 function smootherstep(t: number): number {
   return t * t * t * (t * (t * 6 - 15) + 10);
 }
@@ -48,7 +50,7 @@ export class ImageCycler {
   private readonly TWINKLE_PEAK_MAX = 0.35;
 
   constructor(
-    private imagePaths: string[],
+    private sources: HeroImage[],
     renderer: AsciiRenderer,
     onFrame: (ascii: string) => void,
   ) {
@@ -60,9 +62,9 @@ export class ImageCycler {
     this.wantsAnimation = animate;
 
     // Start rendering as soon as the first image loads, load the rest in background
-    const firstImg = await this.loadImage(this.imagePaths[0]);
+    const firstImg = await this.loadImage(this.sources[0].src);
     this.images[0] = firstImg;
-    this.grids[0] = this.renderer.sampleImage(firstImg);
+    this.grids[0] = this.renderer.sampleImage(firstImg, this.sources[0].focusY);
 
     this.state = "display";
     this.stateStartTime = performance.now();
@@ -76,10 +78,10 @@ export class ImageCycler {
     this.setAnimating(this.wantsAnimation);
 
     // Load remaining images in background
-    for (let i = 1; i < this.imagePaths.length; i++) {
-      this.loadImage(this.imagePaths[i]).then((img) => {
+    for (let i = 1; i < this.sources.length; i++) {
+      this.loadImage(this.sources[i].src).then((img) => {
         this.images[i] = img;
-        this.grids[i] = this.renderer.sampleImage(img);
+        this.grids[i] = this.renderer.sampleImage(img, this.sources[i].focusY);
       });
     }
   }
@@ -120,7 +122,7 @@ export class ImageCycler {
   }
 
   computeAllGrids() {
-    this.grids = this.images.map((img) => this.renderer.sampleImage(img));
+    this.grids = this.images.map((img, i) => this.renderer.sampleImage(img, this.sources[i].focusY));
   }
 
   handleResize(width?: number, height?: number) {

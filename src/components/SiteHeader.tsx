@@ -6,26 +6,30 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import styles from "./SiteHeader.module.css";
 
-const REVEAL_OFFSET = 32;
+const HEADER_HEIGHT = 56;
 
 export default function SiteHeader() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const pathname = usePathname();
   const onBlog = pathname === "/blog" || pathname.startsWith("/blog/");
+  const onHome = pathname === "/";
 
+  // The home hero has its own menu bar, so there the header waits until the hero has scrolled away.
   useEffect(() => {
+    if (!onHome) return;
+
     function updateVisibility() {
-      setIsVisible(window.scrollY > REVEAL_OFFSET);
+      setPastHero(window.scrollY > window.innerHeight - HEADER_HEIGHT);
     }
 
     updateVisibility();
     window.addEventListener("scroll", updateVisibility, { passive: true });
 
     return () => window.removeEventListener("scroll", updateVisibility);
-  }, []);
+  }, [onHome]);
 
   return (
-    <header className={styles.header} data-visible={isVisible}>
+    <header className={styles.header} data-visible={!onHome || pastHero} data-home={onHome}>
       <nav className={styles.nav} aria-label="Primary">
         <Link href={onBlog ? "/" : "/blog"} className={styles.link}>
           {onBlog ? "Home" : "Blog"}
