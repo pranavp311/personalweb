@@ -80,36 +80,77 @@ const roles = [
     role: "AI Engineer Intern",
     org: "/Mission Systems",
     href: "https://www.missionsystems.ai/",
-    text: "Built meeting intelligence that turns recordings into secure transcripts, action items, and searchable company knowledge for Launchpad, Mission Systems' AI operations platform for hospitality businesses. Building a secure internal workflow automation platform to replace fourteen production n8n workflows.",
+    points: [
+      "Built meeting intelligence that turns recordings into secure transcripts, action items, and searchable company knowledge for Launchpad, Mission Systems' AI operations platform for hospitality businesses.",
+      "Building a secure internal workflow automation platform to replace fourteen production n8n workflows.",
+    ],
   },
   {
-    role: "Founder",
-    org: "/Tweakler",
-    text: (
+    role: "Co-founder & CTO",
+    org: "/AssessMate",
+    points: [
+      "Building an AI case-notes copilot for structured documentation with early childhood intervention assessors.",
       <>
-        Building an agent-driven system that turns permissioned website references into distinct,
-        brand-oriented sites with deterministic validation and human approval gates; already being used and
-        tested by a few studios, including <ExternalLink href="https://brightseastudio.com/">Brightsea Studio</ExternalLink>.
-      </>
-    ),
+        <ExternalLink href="https://www.ccsgp.comp.nus.edu.sg/">CCSGP Fellow</ExternalLink> at NUS Computing for
+        Social Good.
+      </>,
+    ],
   },
   {
     role: "Research Assistant",
     org: "/Prof. Ooi Wei Tsang, NUS Computing",
-    text: "Built a dynamic 3D Gaussian Splatting benchmark across multiple methods and datasets with repeatable quality and performance reports.",
+    points: ["Built a dynamic 3D Gaussian Splatting benchmark across multiple methods and datasets with repeatable quality and performance reports."],
   },
   {
-    role: "CCSGP Fellow",
-    org: "/NUS Computing for Social Good",
-    text: "Building AssessMate, an AI case-notes copilot for structured documentation with early childhood intervention assessors.",
+    role: "Founder",
+    org: "/Tweakler",
+    points: [
+      "Building an agent-driven system that turns permissioned website references into distinct, brand-oriented sites with deterministic validation and human approval gates.",
+      <>
+        Already being used and tested by a few studios, including{" "}
+        <ExternalLink href="https://brightseastudio.com/">Brightsea Studio</ExternalLink>.
+      </>,
+    ],
   },
 ];
 
 const hackathons = [
-  { event: "Replit Agent Hackathon (Singapore)", place: "1ST", project: "Built Remember, an AR smart glasses simulator for dementia patients", win: true },
-  { event: "Google DeepMind × Cactus Compute Hackathon", place: "2ND", project: "Built SecureClaw, a privacy-first on-device AI assistant", win: true },
-  { event: "NVIDIA Nemotron Model Reasoning Challenge", place: "TOP 30%", project: "70th percentile in a field of 5,223 participants", win: false },
-  { event: "Hack&Roll 2026", place: "—", project: "Built JustPromptBro, a VSCode extension", win: false },
+  {
+    event: "Replit Agent Hackathon (Singapore)",
+    place: "1ST",
+    points: ["Built Remember \u2014 an AR smart glasses simulator for dementia patients with real-time face recognition, contextual information overlay, and a personal knowledge graph powered by live speech extraction."],
+    github: "https://github.com/Fiyxxx/remember",
+    win: true,
+  },
+  {
+    event: "Google DeepMind \u00d7 Cactus Compute Hackathon",
+    place: "2ND",
+    points: ["Built SecureClaw \u2014 a privacy-first on-device AI assistant using FunctionGemma with smart cloud fallback, PII detection, and local-vs-cloud routing."],
+    github: "https://github.com/pranavp311/secureclaw",
+    win: true,
+  },
+  {
+    event: "NVIDIA Nemotron Model Reasoning Challenge",
+    place: "TOP 30%",
+    points: [
+      "Used a MAP-Elites-style search over fine-tuning recipes, then trained a rank-32 attention LoRA on 14,400 solver-generated reasoning traces for Nemotron-3-Nano-30B.",
+      "Placed in the 70th percentile in a field of 5,223 participants.",
+    ],
+    win: false,
+  },
+  {
+    event: "Hack&Roll 2026",
+    place: "\u2014",
+    points: ["Built JustPromptBro \u2014 a VSCode extension with event-driven keystroke tracking, real-time behavioural feedback, and a Solana smart contract for on-chain game logic."],
+    github: "https://github.com/Fiyxxx/justpromptbro",
+    win: false,
+  },
+  {
+    event: "Jane Street Kaggle Competition",
+    place: "\u2014",
+    points: ["Built a neural network from scratch and leveraged XGBoost for time-series forecasting on unlabelled market data to predict prices 6 months ahead."],
+    win: false,
+  },
 ];
 
 // The custom cursor hides the hand pointer, so its tag says what a click will do.
@@ -160,6 +201,16 @@ function Panel({ id, label, bodyClass, children }: { id: string; label: string; 
       <span className={styles.panelLabel}>{label}</span>
       <div className={`${styles.panelBody} ${bodyClass}`}>{children}</div>
     </section>
+  );
+}
+
+function Points({ items }: { items: ReactNode[] }) {
+  return (
+    <ul className={styles.points}>
+      {items.map((item, i) => (
+        <li key={i}>{item}</li>
+      ))}
+    </ul>
   );
 }
 
@@ -390,50 +441,57 @@ export default function CardDeck() {
           ))}
         </Panel>
 
-        <Panel id="experience" label="Experience" bodyClass={styles.center}>
+        <Panel id="experience" label="Experience" bodyClass={styles.pair}>
           {card(
-            "chronology",
+            "wins",
             "CARD_09",
-            ["C9", "EXPERIENCE"],
-            <>
-              <p className={styles.sectionLabel}>Wins</p>
-              <div className={styles.rows}>
-                {hackathons.map((hack) => (
-                  <div key={hack.event} className={styles.row}>
-                    <div className={styles.rowHead}>
-                      <span className={hack.win ? styles.chipSolid : styles.chip}>{hack.place}</span>
-                      <span>{hack.event}</span>
-                    </div>
-                    <p className={`${styles.text} ${styles.muted}`}>{hack.project}</p>
+            ["C9", "WINS"],
+            <div className={styles.rows}>
+              {hackathons.map((hack) => (
+                <div key={hack.event} className={styles.row}>
+                  <div className={styles.rowHead}>
+                    <span className={hack.win ? styles.chipSolid : styles.chip}>{hack.place}</span>
+                    <span>{hack.event}</span>
                   </div>
-                ))}
-              </div>
-              <p className={styles.sectionLabel}>Roles</p>
-              <div className={styles.rows}>
-                {roles.map((entry) => (
-                  <div key={entry.role} className={styles.row}>
-                    <div className={styles.rowHead}>
-                      <span className={styles.chipSolid}>{entry.role}</span>
-                      {entry.href ? (
-                        <ExternalLink href={entry.href}>{entry.org.slice(1)} ↗</ExternalLink>
-                      ) : (
-                        <span>{entry.org.slice(1)}</span>
-                      )}
+                  <Points items={hack.points} />
+                  {hack.github && (
+                    <div className={styles.rowLink}>
+                      <ExternalLink href={hack.github}>/github ↗</ExternalLink>
                     </div>
-                    <p className={`${styles.text} ${styles.muted}`}>{entry.text}</p>
+                  )}
+                </div>
+              ))}
+            </div>,
+            { className: styles.lead },
+          )}
+          {card(
+            "roles",
+            "CARD_10",
+            ["C10", "ROLES"],
+            <div className={styles.rows}>
+              {roles.map((entry) => (
+                <div key={entry.role} className={styles.row}>
+                  <div className={styles.rowHead}>
+                    <span className={styles.chipSolid}>{entry.role}</span>
+                    {entry.href ? (
+                      <ExternalLink href={entry.href}>{entry.org.slice(1)} ↗</ExternalLink>
+                    ) : (
+                      <span>{entry.org.slice(1)}</span>
+                    )}
                   </div>
-                ))}
-              </div>
-            </>,
-            { style: { width: "min(100%, 680px)" } },
+                  <Points items={entry.points} />
+                </div>
+              ))}
+            </div>,
+            { className: styles.follow },
           )}
         </Panel>
 
         <Panel id="contact" label="Contact" bodyClass={styles.center}>
           {card(
             "contact",
-            "CARD_10",
-            ["C10", "GET_IN_TOUCH"],
+            "CARD_11",
+            ["C11", "GET_IN_TOUCH"],
             <>
               <h2 className={styles.heading}>Let&apos;s build something together.</h2>
               <p className={styles.text}>Whether you&apos;re a fellow builder or just want to chat, I&apos;d love to hear from you.</p>

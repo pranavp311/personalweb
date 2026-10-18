@@ -225,6 +225,30 @@
   gap: 4px 10px;
 }
 
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.points li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.points li::before {
+  position: absolute;
+  left: 0;
+  content: "›";
+}
+
+.rowLink {
+  text-align: right;
+}
+
 .chip,
 .chipSolid {
   padding: 0 6px;
@@ -235,20 +259,6 @@
   background: var(--deck-ink);
   color: var(--deck-card);
 }
-
-.sectionLabel {
-  margin: 8px 0 0;
-  padding: 0 6px;
-  align-self: flex-start;
-  background: var(--deck-ink);
-  color: var(--deck-card);
-  font-size: 15px;
-}
-
-.muted {
-  opacity: 0.9;
-}
-
 
 .heading {
   margin: 0;
@@ -370,7 +380,8 @@
 
 }
 
-.text .link {
+.text .link,
+.points .link {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
