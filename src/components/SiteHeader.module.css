@@ -26,7 +26,10 @@
     visibility 0s linear 180ms;
 }
 
-.header[data-visible="true"] {
+/* The home hero has its own menu, so there the header waits until the hero has scrolled away.
+   This keys off page content, not the pathname, which can differ in prerendered HTML. */
+:global(html:not(:has([data-hero-menu]))) .header,
+.header[data-past-hero="true"] {
   opacity: 1;
   pointer-events: auto;
   transform: translate3d(0, 0, 0);
@@ -98,17 +101,18 @@
     box-shadow: 0 8px 28px var(--color-toggle-shadow);
   }
 
-  .header[data-visible="true"] {
+  :global(html:not(:has([data-hero-menu]))) .header,
+  .header[data-past-hero="true"] {
     transform: translate3d(50%, 0, 0);
   }
 }
 
-/* Card deck pages: match the deck styling. Off the home page the bar sits in flow, so it covers nothing. */
+/* Card deck pages: match the deck styling. Without the hero the bar sits in flow, so it covers nothing. */
 :global(html:has(.deck-page)) {
   scroll-padding-top: 56px;
 }
 
-:global(html:has(.deck-page)) .header:not([data-home="true"]) {
+:global(html:has(.deck-page):not(:has([data-hero-menu]))) .header {
   position: sticky;
 }
 
@@ -159,7 +163,7 @@
 }
 
 @media (max-width: 480px) {
-  :global(html:has(.deck-page)) .header:not([data-home="true"]) {
+  :global(html:has(.deck-page):not(:has([data-hero-menu]))) .header {
     position: fixed;
   }
 

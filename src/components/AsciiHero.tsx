@@ -115,7 +115,7 @@ export default function AsciiHero() {
           {/* Menu bar for the hero; the site header stays hidden until the hero scrolls away. */}
           <div className={styles.menuBar}>
             <span>C0</span>
-            <nav className={styles.menu} aria-label="Hero menu">
+            <nav className={styles.menu} aria-label="Hero menu" data-hero-menu>
               <Link href="/blog">Blog</Link>
               <a href="/pranav-pappu-resume.pdf" target="_blank" rel="noopener noreferrer">
                 Resume

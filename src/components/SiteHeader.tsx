@@ -12,12 +12,9 @@ export default function SiteHeader() {
   const [pastHero, setPastHero] = useState(false);
   const pathname = usePathname();
   const onBlog = pathname === "/blog" || pathname.startsWith("/blog/");
-  const onHome = pathname === "/";
 
-  // The home hero has its own menu bar, so there the header waits until the hero has scrolled away.
+  // Only pages with the hero menu use this (see SiteHeader.module.css).
   useEffect(() => {
-    if (!onHome) return;
-
     function updateVisibility() {
       setPastHero(window.scrollY > window.innerHeight - HEADER_HEIGHT);
     }
@@ -26,10 +23,10 @@ export default function SiteHeader() {
     window.addEventListener("scroll", updateVisibility, { passive: true });
 
     return () => window.removeEventListener("scroll", updateVisibility);
-  }, [onHome]);
+  }, []);
 
   return (
-    <header className={styles.header} data-visible={!onHome || pastHero} data-home={onHome}>
+    <header className={styles.header} data-past-hero={pastHero}>
       <nav className={styles.nav} aria-label="Primary">
         <Link href={onBlog ? "/" : "/blog"} className={styles.link}>
           {onBlog ? "Home" : "Blog"}
